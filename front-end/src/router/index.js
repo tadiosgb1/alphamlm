@@ -71,6 +71,9 @@ import workSpaceDetail from '../views/closed/coworkingSpace/detail.vue'
 import workSpaceRentalDetail from '../views/closed/workspaceRental/detail.vue'
 
 
+import GenealogyTree from '../views/closed/network/genealogytree.vue'
+
+
 const routes = [
   {
     path: "/", name: "/",
@@ -140,6 +143,13 @@ const routes = [
         path: "first-dash", name: "first-dash",
         component: first_dash,
       },
+
+       {
+        path: "genealogy-tree", name: "genealogy-tree",
+        component: GenealogyTree,
+      },
+
+
       {
         path: '/rent-detail/:id',   // Route param :id
         name: 'rent-detail',
