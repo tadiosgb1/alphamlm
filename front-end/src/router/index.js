@@ -41,6 +41,7 @@ import CommissionConfiguration from '../views/closed/commissionConfiguration/vie
 import TreeSetting from '../views/closed/treeSetting/view.vue';
 import Sales from '../views/closed/sales/view.vue';
 import unilevelConfigurations from '../views/closed/unilevelConfigurations/view.vue';
+import walletTransactions from '../views/closed/walletTransactions/view.vue';
 
 
 
@@ -96,6 +97,7 @@ const routes = [
       { path: "tree_settings", name: "tree_settings", component: TreeSetting},
       { path: "sales", name: "sales", component: Sales},
       { path: "unilevel_configurations", name: "unilevel_configurations", component: unilevelConfigurations},
+      { path: "wallet_transactions", name: "wallet_transactions", component: walletTransactions},
 
 
     ],
