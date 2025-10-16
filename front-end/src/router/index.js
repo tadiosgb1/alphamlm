@@ -1,256 +1,113 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from '../views/opened/landing/Home.vue'
-import Login from '../views/opened/auth/login.vue'
-import ContactUs from '../views/opened/landing/contactUs.vue'
-import Products from '../views/opened/landing/products.vue'
-import About from '../views/opened/landing/about.vue'
-
-import ResetPassword from '../views/opened/auth/ResetPassword.vue'
-import ForgotPasssword from '../views/opened/auth/forgotPassword.vue'
-
-import Registration from '../views/opened/auth/login.vue'
-import ForgotPassword from '../views/opened/auth/forgotPassword.vue';
+import Home from '../views/opened/landing/Home.vue';
+import Login from '../views/opened/auth/login.vue';
+import ContactUs from '../views/opened/landing/contactUs.vue';
+import Products from '../views/opened/landing/products.vue';
+import About from '../views/opened/landing/about.vue';
+import ResetPassword from '../views/opened/auth/ResetPassword.vue';
+import ForgotPasssword from '../views/opened/auth/forgotPassword.vue';
+import Registration from '../views/opened/auth/login.vue'; // note: same file as login
 import Reset from '../views/opened/auth/reset.vue';
 import AccessDenied from "../views/opened/auth/accessDenied.vue";
-import first_dash from '../views/closed/first_dash.vue'
-import dashboard from '../views/closed/dashboard.vue'
-import Properties from '../views/closed/proporty/view.vue';
-import PropertyDetail from '../views/closed/proporty/PropertyDetail.vue'
-import rentPay from '../views/closed/rent/view.vue'
-import PropertyZoneDetail from '../views/closed/Zones/propertyZoneDetail.vue';
 
-import PropertyZone from '../views/closed/Zones/view.vue';
+import first_dash from '../views/closed/first_dash.vue';
+import dashboard from '../views/closed/dashboard.vue';
+import Properties from '../views/closed/proporty/view.vue';
+import PropertyDetail from '../views/closed/proporty/PropertyDetail.vue';
 import PropertyPicture from '../views/closed/proportyPicture/view.vue';
 
-import Payments from '../views/closed/payments/view.vue';
-const Maintenance = { template: '<div class="p-6 text-gray-800">Maintenance Page</div>' };
-const Leases = { template: '<div class="p-6 text-gray-800">Leases Page</div>' };
-const Messages = { template: '<div class="p-6 text-gray-800">Messages Page</div>' };
-const Settings = { template: '<div class="p-6 text-gray-800">Settings Page</div>' };
-
-import Rents from '../views/closed/rent/view.vue';
-import RentDetail from '../views/closed/rent/rentDetail.vue';
-
-import MaintenanceRequests from '../views/closed/maintenanceRequests/view1.vue';
-
 import User_view from '../views/closed/users/view.vue';
-
 import User_add from '../views/closed/users/add.vue';
 import UserEdit from '../views/closed/users/edit.vue';
 import UserDetail from '../views/closed/users/detail.vue';
-import Tenants from '../views/closed/tenant/view.vue';
 import Permissions_add from '../views/closed/permissions/add.vue';
 import permissions_view from '../views/closed/permissions/view.vue';
-import plans_view from '../views/closed/plans/view.vue';
-import subscriptions_view from '../views/closed/subscriptions/view.vue'
-import subscriptionsPayment_view from '../views/closed/subscriptions/SubscriptionPayment/view.vue'
-import view_groups from '../views/closed/groups/view.vue'
-import view_managers from '../views/closed/managers/view.vue'
-import view_owners from '../views/closed/owners/view.vue'
-import Property_sales from '../views/closed/PropertySales/view.vue'
-import PropertySaleDetail from '../views/closed/PropertySales/saleDetail.vue'
-import Sales_Payments from '../views/closed/SalesPayment/view.vue'
-import Rent_Payments from '../views/closed/rent/RentPayments.vue'
-import staffs from '../views/closed/stafs/view.vue'
-import Notifications from '../views/closed/notifications/view.vue'
-import notificationDetail from '../views/closed/notifications/notificationDeatil.vue'
-import Reports from '../views/closed/report/view.vue'
-import CowrkingSpaces from '../views/closed/coworkingSpace/view.vue'
-import CowrkingSpaceRental from '../views/closed/workspaceRental/view.vue'
-import saleCommissions from '../views/closed/saleCommissions/view.vue'
-import rentCommissions from '../views/closed/rentCommissions/view.vue'
-import Transactions from '../views/closed/transactions/transactions_view.vue'
-import Contacts from '../views/closed/contacts/view.vue'
+import view_groups from '../views/closed/groups/view.vue';
+import staffs from '../views/closed/stafs/view.vue';
+import Notifications from '../views/closed/notifications/view.vue';
+import notificationDetail from '../views/closed/notifications/notificationDeatil.vue';
+import Configurations from '../views/closed/Configurations/view.vue';
 
-import Configurations from '../views/closed/Configurations/view.vue'
-import CoworkspacePayments from '../views/closed/workspacePayment/view.vue'
-import brokers from '../views/closed/brokers/view.vue'
-import brokerDetail from '../views/closed/brokers/brokerDetail.vue'
-import subDetail from '../views/closed/subscriptions/subDetail.vue'
-import workSpaceDetail from '../views/closed/coworkingSpace/detail.vue'
-import workSpaceRentalDetail from '../views/closed/workspaceRental/detail.vue'
+import GenealogyTree from '../views/closed/network/genealogytree.vue';
+import Categories from '../views/closed/categories/view.vue';
+import Products_dashboard from '../views/closed/products/view.vue';
+import Trainings from '../views/closed/trainings/view.vue';
+import Packages from '../views/closed/packages/view.vue';
+import TrainingPackages from '../views/closed/TrainingPackages/view.vue';
+import ProductPackages from '../views/closed/ProductPackages/view.vue';
+import MlmSettings from '../views/closed/MlmSettings/view.vue';
+import Commissions from '../views/closed/commissions/view.vue';
+import CommissionConfiguration from '../views/closed/commissionConfiguration/view.vue';
+import TreeSetting from '../views/closed/treeSetting/view.vue';
+import Sales from '../views/closed/sales/view.vue';
+import unilevelConfigurations from '../views/closed/unilevelConfigurations/view.vue';
 
 
-import GenealogyTree from '../views/closed/network/genealogytree.vue'
 
 
 const routes = [
-  {
-    path: "/", name: "/",
-    component: Home,
-    meta:
-      { requiresGuest: true }
-  },
-
-  {
-    path: "/login", name: "login",
-    component: Login,
-    meta:
-      { requiresGuest: true }
-  },
-
-  {
-    path: "/register", name: "register",
-    component: Registration,
-    meta:
-      { requiresGuest: true }
-  },
-
-
-  {
-    path: "/contact-us", name: "contact-us",
-    component: ContactUs,
-    meta:
-      { requiresGuest: true }
-  },
-    {
-    path: "/about", name: "about",
-    component: About,
-    meta:
-      { requiresGuest: true }
-  },
-    {
-    path: "/products", name: "products",
-    component: Products,
-    meta:
-      { requiresGuest: true }
-  },
-
-
-  // router/index.js
-   {
-    path: '/forgot-password',
-    name: 'ForgotPassword',
-    component: ForgotPasssword,
-    props: true
-  },
-    {
-      path: "/:lang/reset-password",
-      name: "ResetPassword",
-      component: ResetPassword,
-      props: true, // passes route params as props
-    },
-
-  ,
-  {
-    path: "/dashboard", name: "dashboard",
-    component: dashboard,
-    meta:
-      { requiresGuest: true },
-    children: [
-
-      {
-        path: "first-dash", name: "first-dash",
-        component: first_dash,
-      },
-
-       {
-        path: "genealogy-tree", name: "genealogy-tree",
-        component: GenealogyTree,
-      },
-
-
-      {
-        path: '/rent-detail/:id',   // Route param :id
-        name: 'rent-detail',
-        component: RentDetail,
-        props: true,              // optional: allows you to receive `id` as a prop
-      },
-       {
-        path: '/sub-detail/:id',   // Route param :id
-        name: 'sub-detail',
-        component: subDetail,
-                     // optional: allows you to receive `id` as a prop
-      },
-       {
-        path: '/co-work-detail/:id',   // Route param :id
-        name: 'co-work-detail',
-        component: workSpaceDetail,
-                     // optional: allows you to receive `id` as a prop
-      },
-       {
-        path: '/co-work-rental-detail/:id',   // Route param :id
-        name: 'co-work-rental-detail',
-        component: workSpaceRentalDetail        // optional: allows you to receive `id` as a prop
-      },
-      { path: '/properties', name: 'properties', component: Properties },
-
-      { path: 'properties/:id', name: 'PropertyDetail', component: PropertyDetail, props: true },
-      
-      { path: '/zones/:id', name: 'zoneDetail', component: PropertyZoneDetail, props: true },
-
-      { path: 'properties/rentPay/:id', name: 'rentPay', component: rentPay, props: true },
-      { path: '/zones', name: 'zones', component: PropertyZone },
-      { path: '/pictures', name: 'pictures', component: PropertyPicture },
-      { path: '/tenants', name: 'tenants', component: Tenants },
-      { path: '/payments', name: 'payments', component: Payments },
-      { path: '/maintenance', name: 'maintenance', component: Maintenance },
-      { path: '/leases', name: 'leases', component: Leases },
-      { path: '/reports', name: 'reports', component: Reports },
-      { path: '/messages', name: 'messages', component: Messages },
-      { path: '/settings', name: 'settings', component: Settings },
-      { path: '/notifications', name: 'notifications', component: Notifications },
-      { path: 'notification/:id', name: 'notificationDetail', component: notificationDetail },
-      { path: '/sale-commissions', name: 'sale-commissions', component:saleCommissions },
-      { path: '/rent-commissions', name: 'rent-commissions', component:rentCommissions },
-      
-    { path: '/transactions', name: 'transactions', component:Transactions },
-    { path: '/contacts', name: 'contacts', component:Contacts },
-      
-      { path: '/configurations', name: 'configurations', component:Configurations },
-      { path: '/rents', name: 'rents', component: Rents },
-      { path: '/property_sales', name: 'property_sales', component: Property_sales },
-      { path: '/sales_payments', name: 'sales_payments', component: Sales_Payments },
-      { path: '/rents_payments', name: 'rents_payments', component: Rent_Payments },
-      { path: '/rents_payments/:id',name: 'rents_payment_detail',component: Rent_Payments,props: true, // optional, so you can use props instead of $route.params.id
-  },
-      { path: '/maintenance-requests', name: 'maintenance-requests', component: MaintenanceRequests },
-      { path: '/user_view', name: 'user_view', component: User_view },
-      { path: '/coworking-spaces', name: 'coworking-spaces', component: CowrkingSpaces },
-      { path: '/coworking-space-rentals', name: 'coworking-space-rentals', component:CowrkingSpaceRental },
-      { path: '/coworking-payments', name: 'coworking-payments', component:CoworkspacePayments },
-      { path: '/coworking-payments/:id', name: 'coworking-payments-detail', component:CoworkspacePayments, props:true },
-      { path: '/user_add', name: 'user_add', component: User_add },
-{
-      path: "/property-sale/:id",
-      name: "PropertySaleDetail",
-      component: PropertySaleDetail,
-      props: true
-    },
-      {
-        path: "/user_edit/:id",
-        name: "UserEdit",
-        component: UserEdit,
-        props: true,
-      },
-      {
-        path: "/user_detail/:id",
-        name: "UserDetail",
-        component: UserDetail,
-        props: true, // Pass :id as a prop
-      },
-      { path: '/permission_add', name: 'permission_add', component: Permissions_add },
-      { path: '/permissions_view', name: 'permissions_view', component: permissions_view },
-      { path: '/plans_view', name: 'plans_view', component: plans_view },
-      { path: '/subscriptions_view', name: 'subscriptions_view', component: subscriptions_view },
-      { path: '/subscriptions_view/payment/:id', name: 'subscriptionsPayment_view', component: subscriptionsPayment_view },
-      { path: '/groups', name: 'groups', component: view_groups },
-      { path: '/managers', name: 'managers', component: view_managers },
-      { path: '/owners', name: 'owners', component: view_owners },
-      { path: '/staffs', name: 'staffs', component: staffs },
-       { path: '/brokers', name: 'brokers', component: brokers },
-       { path: '/brokerDetail/:id', name: 'brokerDetail', component: brokerDetail, props:true },
-    ]
-  },
-  { path: "/forgot-password", name: "forgotPassword", component: ForgotPassword },
+  // Public routes
+  { path: "/", name: "home", component: Home, meta: { requiresGuest: true } },
+  { path: "/login", name: "login", component: Login, meta: { requiresGuest: true } },
+  { path: "/register", name: "register", component: Registration, meta: { requiresGuest: true } },
+  { path: "/contact-us", name: "contact-us", component: ContactUs, meta: { requiresGuest: true } },
+  { path: "/about", name: "about", component: About, meta: { requiresGuest: true } },
+  { path: "/products", name: "products", component: Products, meta: { requiresGuest: true } },
+  { path: "/forgot-password", name: "ForgotPassword", component: ForgotPasssword, props: true },
+  { path: "/:lang/reset-password", name: "ResetPassword", component: ResetPassword, props: true },
   { path: "/reset/:token", name: "reset", component: Reset, meta: { requiresGuest: true } },
+
+  // Dashboard (protected area)
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    component: dashboard,
+    meta: { requiresGuest: true },
+    children: [
+      { path: "first-dash", name: "first-dash", component: first_dash },
+      { path: "genealogy-tree", name: "genealogy-tree", component: GenealogyTree },
+
+      { path: "properties", name: "properties", component: Properties },
+      { path: "properties/:id", name: "PropertyDetail", component: PropertyDetail, props: true },
+      { path: "pictures", name: "pictures", component: PropertyPicture },
+      { path: "notifications", name: "notifications", component: Notifications },
+      { path: "notification/:id", name: "notificationDetail", component: notificationDetail },
+    
+      { path: "user_view", name: "user_view", component: User_view },
+      { path: "user_add", name: "user_add", component: User_add },
+      { path: "user_edit/:id", name: "UserEdit", component: UserEdit, props: true },
+      { path: "user_detail/:id", name: "UserDetail", component: UserDetail, props: true },
+      { path: "permission_add", name: "permission_add", component: Permissions_add },
+      { path: "permissions_view", name: "permissions_view", component: permissions_view },
+      { path: "groups", name: "groups", component: view_groups },
+      { path: "staffs", name: "staffs", component: staffs },
+
+
+      { path: "configurations", name: "configurations", component: Configurations },
+      { path: "categories", name: "categories", component: Categories },
+      { path: "view_products", name: "view_products", component: Products_dashboard},
+      { path: "trainings", name: "trainings", component: Trainings},
+      { path: "packages", name: "packages", component: Packages},
+      { path: "training_packages", name: "training_packages", component: TrainingPackages},
+      { path: "product_packages", name: "product_packages", component: ProductPackages},
+      { path: "mlm_settings", name: "mlm_settings", component: MlmSettings},
+      { path: "commissions", name: "commissions", component: Commissions},
+      { path: "commission_configurations", name: "commission_configurations", component: CommissionConfiguration},
+      { path: "tree_settings", name: "tree_settings", component: TreeSetting},
+      { path: "sales", name: "sales", component: Sales},
+      { path: "unilevel_configurations", name: "unilevel_configurations", component: unilevelConfigurations},
+
+
+    ],
+  },
+
+  // Catch-all
   { path: "/:pathMatch(.*)*", name: "accessDenied", component: AccessDenied, meta: { requiresGuest: true } },
 ];
 
 const router = createRouter({
-  // mode: 'hash',
   history: createWebHistory(),
-  routes, // ✅ no spread needed
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
@@ -270,8 +127,6 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (requiresGuest) {
-    next();
   } else {
     next();
   }

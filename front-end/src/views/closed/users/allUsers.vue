@@ -1,7 +1,7 @@
 <template>
   <div>
     <Toast ref="toast" />
-    <div class="min-h-screen bg-gray-100 ">
+    <div class="min-h-screen bg-gray-100">
       <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <!-- Header -->
         <div
@@ -26,7 +26,6 @@
             class="flex-1 px-4 py-2 border rounded-lg focus:ring focus:ring-orange-400"
           />
 
-          <!-- Page Size -->
           <div class="flex items-center gap-2">
             <label class="text-gray-600 text-sm">Show</label>
             <select
@@ -42,8 +41,8 @@
           </div>
         </div>
 
-        <!-- Table -->
-        <div class="overflow-x-auto">
+        <!-- ✅ Desktop Table -->
+        <div class="hidden md:block overflow-x-auto">
           <table class="w-full border-collapse">
             <thead class="bg-gray-100 text-left">
               <tr>
@@ -56,11 +55,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="user in users"
-                :key="user.id"
-                class="hover:bg-gray-50"
-              >
+              <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50">
                 <td class="px-4 py-2">{{ user.id }}</td>
                 <td class="px-4 py-2">
                   {{ user.first_name }} {{ user.middle_name }} {{ user.last_name }}
@@ -69,42 +64,34 @@
                 <td class="px-4 py-2">{{ user.phone_number }}</td>
                 <td class="px-4 py-2">
                   <span
-                    v-if="user.groups.length > 0"
+                    v-if="user.groups && user.groups.length"
                     class="bg-gray-200 px-2 py-1 rounded text-sm"
                   >
                     {{ user.groups.join(", ") }}
                   </span>
                   <span v-else class="text-gray-400">No groups</span>
                 </td>
-                <td class="px-4 py-2 flex gap-2">
-                  <!-- View -->
+                <td class="px-4 py-2 flex flex-wrap gap-2">
                   <button
-                    class="flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 text-sm font-medium rounded-lg border border-blue-200 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
+                    class="flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 text-sm font-medium rounded-lg border border-blue-200 hover:bg-blue-100 transition"
                     @click="goToDetail(user.id)"
                   >
-                    <i class="fas fa-info-circle"></i> Details
+                    <i class="fas fa-info-circle mr-1"></i> Details
                   </button>
-
-                  <!-- Activate / Deactivate -->
                   <button
                     v-if="!user.is_active"
                     @click="activateUser(user.id)"
-                    class="flex items-center px-3 py-1.5 bg-green-50 text-green-700 text-sm font-medium rounded-lg border border-green-200 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
+                    class="flex items-center px-3 py-1.5 bg-green-50 text-green-700 text-sm font-medium rounded-lg border border-green-200 hover:bg-green-100 transition"
                   >
-                    <i class="fas fa-check-circle"></i> Activate
+                    <i class="fas fa-check-circle mr-1"></i> Activate
                   </button>
                   <button
                     v-else
                     @click="deactivateUser(user.id)"
-                    class="flex items-center px-3 py-1.5 bg-orange-50 text-orange-700 text-sm font-medium rounded-lg border border-orange-200 hover:bg-orange-100 focus:outline-none focus:ring-2 focus:ring-orange-200 transition"
+                    class="flex items-center px-3 py-1.5 bg-orange-50 text-orange-700 text-sm font-medium rounded-lg border border-orange-200 hover:bg-orange-100 transition"
                   >
                     <i class="fas fa-ban mr-1"></i> Deactivate
                   </button>
-
-
-
-
-                   
                 </td>
               </tr>
               <tr v-if="users.length === 0">
@@ -116,6 +103,68 @@
           </table>
         </div>
 
+        <!-- ✅ Mobile Card/List Layout -->
+        <div class="md:hidden p-3 space-y-3">
+          <div
+            v-for="user in users"
+            :key="user.id"
+            class="bg-white shadow-sm rounded-lg p-4 border border-gray-200"
+          >
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="font-semibold text-gray-800">
+                {{ user.first_name }} {{ user.middle_name }} {{ user.last_name }}
+              </h3>
+              <span
+                class="text-xs px-2 py-1 rounded-full"
+                :class="user.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
+              >
+                {{ user.is_active ? 'Active' : 'Inactive' }}
+              </span>
+            </div>
+
+            <div class="text-sm text-gray-600 space-y-1">
+              <p><strong>ID:</strong> {{ user.id }}</p>
+              <p><strong>Email:</strong> {{ user.email }}</p>
+              <p><strong>Phone:</strong> {{ user.phone_number }}</p>
+              <p>
+                <strong>Groups:</strong>
+                <span v-if="user.groups && user.groups.length">
+                  {{ user.groups.join(', ') }}
+                </span>
+                <span v-else class="text-gray-400">No groups</span>
+              </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-wrap gap-2 mt-3">
+              <button
+                class="flex-1 flex justify-center items-center px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-lg border border-blue-200 hover:bg-blue-100"
+                @click="goToDetail(user.id)"
+              >
+                <i class="fas fa-info-circle mr-1"></i> Details
+              </button>
+              <button
+                v-if="!user.is_active"
+                @click="activateUser(user.id)"
+                class="flex-1 flex justify-center items-center px-3 py-1.5 bg-green-50 text-green-700 text-xs font-medium rounded-lg border border-green-200 hover:bg-green-100"
+              >
+                <i class="fas fa-check-circle mr-1"></i> Activate
+              </button>
+              <button
+                v-else
+                @click="deactivateUser(user.id)"
+                class="flex-1 flex justify-center items-center px-3 py-1.5 bg-orange-50 text-orange-700 text-xs font-medium rounded-lg border border-orange-200 hover:bg-orange-100"
+              >
+                <i class="fas fa-ban mr-1"></i> Deactivate
+              </button>
+            </div>
+          </div>
+
+          <div v-if="users.length === 0" class="text-center text-gray-500 py-4">
+            No users found
+          </div>
+        </div>
+
         <!-- Pagination -->
         <div class="p-4 flex justify-between items-center">
           <button
@@ -125,7 +174,9 @@
           >
             Previous
           </button>
-          <span class="text-gray-700">Page {{ pagination.current_page }} of {{ pagination.total_pages }}</span>
+          <span class="text-gray-700 text-sm">
+            Page {{ pagination.current_page }} of {{ pagination.total_pages }}
+          </span>
           <button
             :disabled="!pagination.next"
             @click="changePage(pagination.current_page + 1)"
@@ -178,13 +229,10 @@ export default {
           search: this.search,
           page,
           page_size: this.pageSize,
-          ordering:"-id"
+          ordering: "-id",
         };
-
         const response = await this.$apiGet("/get_users", params);
-
         this.users = response.data || [];
-
         this.pagination = {
           current_page: response.current_page,
           total_pages: response.total_pages,

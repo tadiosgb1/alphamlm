@@ -21,7 +21,7 @@
 
         <!-- Navigation -->
         <div class="flex-1 overflow-y-auto">
-          <ul class="p-3 space-y-1">
+          <ul class="px-2 space-y-0">
             <li v-for="item in filteredMenuItems" :key="item.name">
               <!-- Regular menu item -->
               <div v-if="!item.children">
@@ -171,30 +171,110 @@ export default {
             },
           ],
         },
-        {
-          name: "Transactions",
-          route: "transactions",
-          icon: "fas fa-arrows-rotate",
+
+         {
+          name: "Configurations",
+          route: "configurations",
+          icon: "fas fa-bell",
           color: "#22c55e",
         },
-        {
-          name: "Reports",
-          route: "reports",
-          icon: "fas fa-chart-line",
+
+          {
+          name: "Unilevel Configurations",
+          route: "unilevel_configurations",
+          icon: "fas fa-bell",
           color: "#22c55e",
         },
+       
+
+        
+          {
+          name: "Commissions",
+          route: "commissions",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+          {
+          name: "Commission Configurations",
+          route: "commission_configurations",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+
+          {
+          name: "MLM Settings",
+          route: "mlm_settings",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+       
+          {
+          name: "Tree Settings",
+          route: "tree_settings",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+      
+        {
+          name: "Categories",
+          route: "categories",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+
+         {
+          name: "Sales",
+          route: "sales",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+           {
+          name: "Products",
+          route: "view_products",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+
+        {
+          name: "Trainings",
+          route: "trainings",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+
+        {
+          name: "Packages",
+          route: "packages",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+
+         {
+          name: "Training Packages",
+          route: "training_packages",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+          {
+          name: "Product Packages",
+          route: "product_packages",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
+
+        
         {
           name: "Notifications",
           route: "notifications",
           icon: "fas fa-bell",
           color: "#22c55e",
         },
-        {
-          name: "Contacts",
-          route: "contacts",
-          icon: "fas fa-user",
-          color: "#22c55e",
-        },
+        // {
+        //   name: "Contacts",
+        //   route: "contacts",
+        //   icon: "fas fa-user",
+        //   color: "#22c55e",
+        // },
       ],
     };
   },

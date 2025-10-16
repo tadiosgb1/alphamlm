@@ -17,7 +17,7 @@
             aria-label="Tabs"
           >
             <button
-              v-if="is_superuser"
+           
               @click="activeTab = 'allUsers'"
               class="tab-link"
               :class="{ 'tab-active': activeTab === 'allUsers' }"
@@ -26,57 +26,12 @@
             </button>
 
             <button
-              v-if="is_superuser"
-              @click="activeTab = 'superStaffs'"
-              class="tab-link"
-              :class="{ 'tab-active': activeTab === 'superStaffs' }"
-            >
-              Super Staffs
-            </button>
-
-            <button
-              v-if="is_superuser"
-              @click="activeTab = 'owners'"
-              class="tab-link"
-              :class="{ 'tab-active': activeTab === 'owners' }"
-            >
-              Owners
-            </button>
-
-            <button
-              v-if="$hasPermission('pms.view_ownerstaff') || is_superuser"
+              
               @click="activeTab = 'staffs'"
               class="tab-link"
               :class="{ 'tab-active': activeTab === 'staffs' }"
             >
-              Owner Staffs
-            </button>
-
-            <button
-              v-if="$hasPermission('pms.view_ownermanager') || is_superuser"
-              @click="activeTab = 'managers'"
-              class="tab-link"
-              :class="{ 'tab-active': activeTab === 'managers' }"
-            >
-              Managers
-            </button>
-
-            <!-- New Brokers Tab -->
-            <button
-              @click="activeTab = 'brokers'"
-              class="tab-link"
-              :class="{ 'tab-active': activeTab === 'brokers' }"
-            >
-              Brokers
-            </button>
-
-            <button
-             v-if="$hasPermission('pms.view_rentcycle') || is_superuser"
-              @click="activeTab = 'tenants'"
-              class="tab-link"
-              :class="{ 'tab-active': activeTab === 'tenants' }"
-            >
-              Tenants
+              Staffs
             </button>
           </nav>
         </div>
@@ -93,35 +48,19 @@
 <script>
 import allUsers from "./allUsers.vue";
 import staffs from "../stafs/view.vue";
-import managers from "../managers/view.vue";
-import owners from "../owners/view.vue";
-import tenants from "../tenant/view.vue";
-import superStaffs from "./superStaf.vue";
-
-// import your Brokers component
-import brokers from "../brokers/view.vue";
 
 export default {
   components: {
     allUsers,
-    superStaffs,
     staffs,
-    managers,
-    owners,
-    tenants,
-    brokers, // add Brokers here
   },
   data() {
     const is_superuser = localStorage.getItem("is_superuser") === "true";
-    // set default tab based on role/permissions
-    let defaultTab = "tenants"; // fallback for normal users
 
+    // Set default tab based on role/permissions
+    let defaultTab = "staffs";
     if (is_superuser) {
       defaultTab = "allUsers";
-    } else if (this.$hasPermission("pms.view_ownerstaff")) {
-      defaultTab = "staffs";
-    } else if (this.$hasPermission("pms.view_ownermanager")) {
-      defaultTab = "managers";
     }
 
     return {
