@@ -151,8 +151,8 @@
     <div class="flex flex-1 overflow-hidden">
       <!-- Sidebar always visible on large screens (lg+), hidden on md and below -->
     <div class="hidden lg:block w-64 h-screen bg-white" >
-  <Sidebar />
-</div>
+      <Sidebar />
+    </div>
 
 
       <!-- Overlay and Slide-in Sidebar for tablet and mobile -->

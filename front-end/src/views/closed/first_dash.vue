@@ -9,7 +9,7 @@
       >
         <!-- Image on top-right -->
         <img
-          src="@/assets/img/sample-dashboard.png"
+          src=""
           alt="icon"
           class="absolute top-4 right-4 w-10 h-10 object-contain"
         />
