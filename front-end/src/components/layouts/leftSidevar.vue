@@ -179,9 +179,9 @@ export default {
           color: "#22c55e",
         },
 
-          {
-          name: "Unilevel Configurations",
-          route: "unilevel_configurations",
+        {
+          name: "Settings",
+          route: "settings",
           icon: "fas fa-bell",
           color: "#22c55e",
         },
@@ -194,37 +194,19 @@ export default {
           icon: "fas fa-bell",
           color: "#22c55e",
         },
-          {
-          name: "Commission Configurations",
-          route: "commission_configurations",
-          icon: "fas fa-bell",
-          color: "#22c55e",
-        },
+        
 
-          {
-          name: "MLM Settings",
-          route: "mlm_settings",
-          icon: "fas fa-bell",
-          color: "#22c55e",
-        },
-       
-          {
-          name: "Tree Settings",
-          route: "tree_settings",
-          icon: "fas fa-bell",
-          color: "#22c55e",
-        },
-      
+     
+  
         {
           name: "Categories",
           route: "categories",
           icon: "fas fa-bell",
           color: "#22c55e",
         },
-
-         {
-          name: "Sales",
-          route: "sales",
+        {
+          name: "Houses",
+          route: "housings",
           icon: "fas fa-bell",
           color: "#22c55e",
         },
@@ -234,7 +216,7 @@ export default {
           icon: "fas fa-bell",
           color: "#22c55e",
         },
-
+        
         {
           name: "Trainings",
           route: "trainings",
@@ -249,18 +231,15 @@ export default {
           color: "#22c55e",
         },
 
+        
          {
-          name: "Training Packages",
-          route: "training_packages",
+          name: "Sales",
+          route: "sales",
           icon: "fas fa-bell",
           color: "#22c55e",
         },
-          {
-          name: "Product Packages",
-          route: "product_packages",
-          icon: "fas fa-bell",
-          color: "#22c55e",
-        },
+        
+
 
          {
           name: "Wallet Transactions",

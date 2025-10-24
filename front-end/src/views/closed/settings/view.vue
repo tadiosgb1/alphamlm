@@ -2,7 +2,7 @@
   <div class="p-4 text-sm text-gray-800">
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
-      <h1 class="text-lg font-semibold">Packages Management</h1>
+      <h1 class="text-lg font-semibold">System Settings</h1>
     </div>
 
     <!-- Tabs -->
@@ -34,36 +34,31 @@
 </template>
 
 <script>
-import HighLevelPackages from "./highLevelPackages.vue";
-import ProductPackages from "../ProductPackages/view.vue";
-import TrainingPackages from "../TrainingPackages/view.vue";
+import TreeLevelSetting from "../treeSetting/view.vue";
+import MlmSetting from "../MlmSettings/view.vue";
 
 export default {
-  name: "PackagesPage",
+  name: "SettingsPage",
   components: {
-    HighLevelPackages,
-    ProductPackages,
-    TrainingPackages,
+    TreeLevelSetting,
+    MlmSetting,
   },
   data() {
     return {
-      activeTab: "high-level",
+      activeTab: "tree-level",
       tabs: [
-        { key: "high-level", label: "High Level Packages" },
-        { key: "product", label: "Product Packages" },
-        { key: "training", label: "Training Packages" },
+        { key: "tree-level", label: "Tree Level Setting" },
+        { key: "mlm", label: "MLM Setting" },
       ],
     };
   },
   computed: {
     activeComponent() {
       switch (this.activeTab) {
-        case "product":
-          return "ProductPackages";
-        case "training":
-          return "TrainingPackages";
+        case "mlm":
+          return "MlmSetting";
         default:
-          return "HighLevelPackages";
+          return "TreeLevelSetting";
       }
     },
   },
@@ -71,7 +66,7 @@ export default {
 </script>
 
 <style scoped>
-/* Fade + slide animation for smooth tab transition */
+/* Smooth fade + slide animation */
 .fade-slide-enter-active,
 .fade-slide-leave-active {
   transition: opacity 0.3s ease, transform 0.3s ease;
