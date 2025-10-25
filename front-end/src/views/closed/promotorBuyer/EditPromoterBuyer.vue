@@ -32,7 +32,7 @@ export default {
   methods: {
     async updateItem() {
       try {
-        const res = await this.$apiPut('/update_promotor_buyer', this.form.id, this.form);
+        const res = await this.$apiPut('/update_promoter_buyer', this.form.id, this.form);
         if (res) this.$root.$refs.toast.showToast("Updated successfully", "success");
         this.$emit('saved');
         this.$emit('close');
