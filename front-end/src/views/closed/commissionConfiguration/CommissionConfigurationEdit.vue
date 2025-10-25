@@ -33,7 +33,7 @@ export default {
   methods: {
     async update() {
       try {
-        await this.$apiPatch(`/update_commission_configuration/${this.form.id}/`, this.form);
+        await this.$apiPatch(`/update_commission_configuration`,this.form.id, this.form);
         this.$emit("close");
       } catch (err) {
         console.error("Failed to update configuration:", err);

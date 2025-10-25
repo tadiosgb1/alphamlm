@@ -51,7 +51,7 @@
             <td class="px-3 py-2 text-gray-500">{{ new Date(conf.created_at).toLocaleDateString() }}</td>
             <td class="px-3 py-2 flex gap-2">
               <button @click="openEditModal(conf)" class="text-blue-500 hover:text-blue-700" title="Edit">✎</button>
-              <button @click="deleteConfiguration(conf.id)" class="text-red-500 hover:text-red-700" title="Delete">🗑</button>
+              <button @click=" askDeleteConfirmation(conf)" class="text-red-500 hover:text-red-700" title="Delete">🗑</button>
             </td>
           </tr>
           <tr v-if="configurations.length===0">
@@ -69,7 +69,7 @@
           <div class="text-gray-500"><span class="font-semibold">Created:</span> {{ new Date(conf.created_at).toLocaleDateString() }}</div>
           <div class="flex gap-2 mt-1">
             <button @click="openEditModal(conf)" class="text-blue-500 hover:text-blue-700 text-xs">✎ Edit</button>
-            <button @click="deleteConfiguration(conf.id)" class="text-red-500 hover:text-red-700 text-xs">🗑 Delete</button>
+            <button @click=" askDeleteConfirmation(conf)" class="text-red-500 hover:text-red-700 text-xs">🗑 Delete</button>
           </div>
         </div>
       </div>
@@ -87,15 +87,25 @@
     <!-- Modals -->
     <UnilevelAdd v-if="showAdd" @close="showAdd=false; fetchConfigurations()" />
     <UnilevelEdit v-if="showEdit" :configuration="selectedConfiguration" @close="showEdit=false; fetchConfigurations()" />
-  </div>
+
+    <ConfirmModal
+        v-if="confirmVisible"
+        :visible="confirmVisible"
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this system configuration?"
+        @confirm="confirmDelete"
+        @cancel="confirmVisible = false"
+      />
+</div>
 </template>
 
 <script>
 import UnilevelAdd from './UnilevelAdd.vue';
 import UnilevelEdit from './UnilevelEdit.vue';
+import ConfirmModal from "@/components/ConfirmModal.vue";
 
 export default {
-  components: { UnilevelAdd, UnilevelEdit },
+  components: { UnilevelAdd, UnilevelEdit,ConfirmModal },
   data() {
     return {
       configurations: [],
@@ -108,7 +118,9 @@ export default {
       totalCount: 0,
       showAdd: false,
       showEdit: false,
-      selectedConfiguration: null
+      selectedConfiguration: null,
+       unilevelconfigurationToDelete:null,
+      confirmVisible:null
     };
   },
   methods: {
@@ -131,6 +143,29 @@ export default {
     openEditModal(conf) {
       this.selectedConfiguration = conf;
       this.showEdit = true;
+    },
+     askDeleteConfirmation(unilevelconfiguration) {
+      this.unilevelconfigurationToDelete = unilevelconfiguration;
+      this.confirmVisible = true;
+    },
+    async confirmDelete() {
+      this.confirmVisible = false;
+      try {
+        const res = await this.$apiDelete(
+          `/delete_unilevel_configuration/${this.unilevelconfigurationToDelete.id}`
+        );
+        if (res && res.error){
+      this.$root.$refs.toast.showToast(res.error || "Failed to delete property", "error");
+
+        } else{
+        this.$root.$refs.toast.showToast(res.message, "success");
+        await this.fetchConfigurations();
+        }
+      } catch (err) {
+        console.error(err);
+       this.$root.$refs.toast.showToast("Failed to delete property", "error");
+      }
+      this.unilevelconfigurationToDelete = null;
     },
     async deleteConfiguration(id) {
       if (!confirm("Are you sure you want to delete this configuration?")) return;

@@ -44,7 +44,7 @@
               </button>
               <button
                 class="text-red-500 hover:text-red-700"
-                @click="deleteConfig(item.id)"
+                @click="askDeleteConfirmation(item)"
               >
                 🗑
               </button>
@@ -77,7 +77,7 @@
             </button>
             <button
               class="text-red-500 hover:text-red-700"
-              @click="deleteConfig(item.id)"
+               @click="askDeleteConfirmation(item)"
             >
               🗑
             </button>
@@ -108,21 +108,33 @@
       @close="showEdit = false"
       @saved="fetchConfigs"
     />
+
+    <ConfirmModal
+        v-if="confirmVisible"
+        :visible="confirmVisible"
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this system configuration?"
+        @confirm="confirmDelete"
+        @cancel="confirmVisible = false"
+      />
   </div>
 </template>
 
 <script>
 import AddConfiguration from "./AddConfiguration.vue";
 import EditConfiguration from "./EditConfiguration.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 
 export default {
-  components: { AddConfiguration, EditConfiguration },
+  components: { AddConfiguration, EditConfiguration,ConfirmModal },
   data() {
     return {
       configs: [],
       showAdd: false,
       showEdit: false,
       selectedConfig: null,
+       systemconfigurationToDelete:null,
+      confirmVisible:null
     };
   },
   methods: {
@@ -138,14 +150,28 @@ export default {
       this.selectedConfig = item;
       this.showEdit = true;
     },
-    async deleteConfig(id) {
-      if (!confirm("Are you sure?")) return;
+     askDeleteConfirmation(systemconfiguration) {
+      this.systemconfigurationToDelete = systemconfiguration;
+      this.confirmVisible = true;
+    },
+    async confirmDelete() {
+      this.confirmVisible = false;
       try {
-        await this.$apiDelete(`/delete_configuration/${id}/`);
-        this.fetchConfigs();
+        const res = await this.$apiDelete(
+          `/delete_configuration/${this.systemconfigurationToDelete.id}`
+        );
+        if (res && res.error){
+      this.$root.$refs.toast.showToast(res.error || "Failed to delete property", "error");
+
+        } else{
+        this.$root.$refs.toast.showToast(res.message, "success");
+        await this.fetchConfigs();
+        }
       } catch (err) {
         console.error(err);
+       this.$root.$refs.toast.showToast("Failed to delete property", "error");
       }
+      this.systemconfigurationToDelete = null;
     },
   },
   mounted() {

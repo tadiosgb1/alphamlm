@@ -16,14 +16,26 @@
           <div><label class="block mb-1 text-gray-600">Company Revenue Product (%)</label>
             <input type="text" v-model="form.company_revenue_product_percentage" class="border rounded w-full px-2 py-1 text-xs" required/></div>
 
+            <div><label class="block mb-1 text-gray-600">Company Revenue Product</label>
+            <input type="text" v-model="form.company_revenue_product" class="border rounded w-full px-2 py-1 text-xs" required/></div>
+
           <div><label class="block mb-1 text-gray-600">Product Distribution Reward (%)</label>
             <input type="text" v-model="form.product_disrtribution_reward_percentage" class="border rounded w-full px-2 py-1 text-xs" required/></div>
+
+         <div><label class="block mb-1 text-gray-600">Product Distribution Reward</label>
+            <input type="text" v-model="form.product_distribution_reward" class="border rounded w-full px-2 py-1 text-xs" required/></div>
 
           <div><label class="block mb-1 text-gray-600">Company Revenue Training (%)</label>
             <input type="text" v-model="form.company_revenue_training_percentage" class="border rounded w-full px-2 py-1 text-xs" required/></div>
 
+            <div><label class="block mb-1 text-gray-600">Company Revenue Training </label>
+            <input type="text" v-model="form.company_revenue_training" class="border rounded w-full px-2 py-1 text-xs" required/></div>
+
           <div><label class="block mb-1 text-gray-600">Training Distribution Reward (%)</label>
             <input type="text" v-model="form.training_distribution_reward_percentage" class="border rounded w-full px-2 py-1 text-xs" required/></div>
+
+            <div><label class="block mb-1 text-gray-600">Training Distribution Reward</label>
+            <input type="text" v-model="form.training_distribution_reward" class="border rounded w-full px-2 py-1 text-xs" required/></div>
 
           <div><label class="block mb-1 text-gray-600">Service Charge</label>
             <input type="text" v-model="form.service_charge" class="border rounded w-full px-2 py-1 text-xs" required/></div>
@@ -42,9 +54,17 @@
 export default {
   data(){ return {
     form:{
-      investment_amount:'', housing_or_car_investment:'', sacco:'',
-      company_revenue_product_percentage:'', product_disrtribution_reward_percentage:'',
-      company_revenue_training_percentage:'', training_distribution_reward_percentage:'',
+      investment_amount:'',
+       housing_or_car_investment:'',
+        sacco:'',
+      company_revenue_product_percentage:'',
+    company_revenue_product:'',
+     product_disrtribution_reward_percentage:'',
+     company_revenue_training:'',
+      company_revenue_training_percentage:'',
+      product_distribution_reward:'',
+       training_distribution_reward_percentage:'',
+       training_distribution_reward:'',
       service_charge:''
     }
   }; },

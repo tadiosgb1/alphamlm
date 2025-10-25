@@ -26,11 +26,11 @@
 
 <script>
 export default {
-  data(){ return { form:{ max_level:0, min_withdrawal_amount:'', payout_frequency:0 } }; },
+  data(){ return { form:{ max_level:0, min_withdrawal_amount:'', payout_frequency:0,business_volume_amount_in_sales:20 } }; },
   methods:{
     async saveSetting(){
       try{
-        await this.$apiPost('/post_mlm_settings', this.form);
+        await this.$apiPost('/post_mlm_setting', this.form);
         this.$emit('saved'); this.$emit('close');
       }catch(err){ console.error(err); }
     }
