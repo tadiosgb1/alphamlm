@@ -44,6 +44,7 @@ import unilevelConfigurations from '../views/closed/unilevelConfigurations/view.
 import walletTransactions from '../views/closed/walletTransactions/view.vue';
 import Settings from '../views/closed/settings/view.vue';
 import Housings from '../views/closed/housing/view.vue';
+import PromotorBuyer from '../views/closed/promotorBuyer/view.vue';
 
 
 
@@ -102,6 +103,7 @@ const routes = [
       { path: "unilevel_configurations", name: "unilevel_configurations", component: unilevelConfigurations},
       { path: "wallet_transactions", name: "wallet_transactions", component: walletTransactions},
       { path: "housings", name: "housings", component: Housings},
+      { path: "promotor_buyers", name: "promotor_buyers", component: PromotorBuyer},
 
 
     ],

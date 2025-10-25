@@ -238,6 +238,13 @@ export default {
           icon: "fas fa-bell",
           color: "#22c55e",
         },
+          
+         {
+          name: "Promotor Buyers",
+          route: "promotor_buyers",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
         
          {
           name: "Wallet Transactions",
