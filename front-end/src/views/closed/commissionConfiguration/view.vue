@@ -46,7 +46,7 @@
                 ✎
               </button>
               <button
-                @click="deleteConfiguration(item.id)"
+               @click="askDeleteConfirmation(item)"
                 class="text-red-500 hover:text-red-700"
                 title="Delete"
               >
@@ -82,7 +82,7 @@
               ✎
             </button>
             <button
-              @click="deleteConfiguration(item.id)"
+              @click="askDeleteConfirmation(item)"
               class="text-red-500 hover:text-red-700"
               title="Delete"
             >
@@ -115,21 +115,33 @@
       :configuration="selectedConfiguration"
       @close="showEditModal = false; fetchConfigurations()"
     />
+
+    <ConfirmModal
+        v-if="confirmVisible"
+        :visible="confirmVisible"
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this commission configuration?"
+        @confirm="confirmDelete"
+        @cancel="confirmVisible = false"
+      />
   </div>
 </template>
 
 <script>
 import CommissionConfigurationAdd from "./CommissionConfigurationAdd.vue";
 import CommissionConfigurationEdit from "./CommissionConfigurationEdit.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 
 export default {
-  components: { CommissionConfigurationAdd, CommissionConfigurationEdit },
+  components: { CommissionConfigurationAdd, CommissionConfigurationEdit,ConfirmModal },
   data() {
     return {
       configurations: [],
       showAddModal: false,
       showEditModal: false,
       selectedConfiguration: null,
+      CommissionconfigurationToDelete :null,
+      confirmVisible:null
     };
   },
   methods: {
@@ -148,6 +160,29 @@ export default {
     editConfiguration(item) {
       this.selectedConfiguration = { ...item };
       this.showEditModal = true;
+    },
+     askDeleteConfirmation(Commissionconfiguration) {
+      this.CommissionconfigurationToDelete = Commissionconfiguration;
+      this.confirmVisible = true;
+    },
+     async confirmDelete() {
+      this.confirmVisible = false;
+      try {
+        const res = await this.$apiDelete(
+          `/delete_commission_configuration/${this.CommissionconfigurationToDelete.id}`
+        );
+        if (res && res.error){
+      this.$root.$refs.toast.showToast(res.error || "Failed to delete property", "error");
+
+        } else{
+        this.$root.$refs.toast.showToast(res.message, "success");
+        await this.fetchConfigurations();
+        }
+      } catch (err) {
+        console.error(err);
+       this.$root.$refs.toast.showToast("Failed to delete property", "error");
+      }
+      this.CommissionconfigurationToDelete = null;
     },
     deleteConfiguration(id) {
       alert("Delete not implemented yet");

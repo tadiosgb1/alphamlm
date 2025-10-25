@@ -35,7 +35,7 @@ export default {
   methods: {
     async updateConfiguration() {
       try {
-        await this.$apiPut(`/update_unilevel_configuration/${this.configuration.id}/`, this.form);
+        await this.$apiPut(`/update_unilevel_configuration`,this.configuration.id, this.form);
         this.$emit('close');
       } catch (err) {
         console.error(err);

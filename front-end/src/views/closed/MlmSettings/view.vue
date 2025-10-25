@@ -31,7 +31,7 @@
           >
             <td class="px-3 py-2">{{ index + 1 }}</td>
             <td class="px-3 py-2">{{ item.max_level }}</td>
-            <td class="px-3 py-2">{{ item.min_withdrawal_amount }}</td>
+            <td class="px-3 py-2">{{ item.business_volume_amount_in_sales }}</td>
             <td class="px-3 py-2">{{ item.payout_frequency }} days</td>
             <td class="px-3 py-2 flex gap-2">
               <button
@@ -43,7 +43,7 @@
               </button>
               <button
                 class="text-red-500 hover:text-red-700"
-                @click="deleteSetting(item.id)"
+                 @click="askDeleteConfirmation(item)"
                 title="Delete"
               >
                 🗑
@@ -78,7 +78,7 @@
               ✎
             </button>
             <button
-              @click="deleteSetting(item.id)"
+               @click="askDeleteConfirmation(item)"
               class="text-red-500 hover:text-red-700"
               title="Delete"
             >
@@ -89,7 +89,7 @@
 
         <div class="text-[13px] space-y-1">
           <div><span class="font-semibold">Max Level:</span> {{ item.max_level }}</div>
-          <div><span class="font-semibold">Min Withdrawal:</span> {{ item.min_withdrawal_amount }}</div>
+          <div><span class="font-semibold">Min Withdrawal:</span> {{ item.business_volume_amount_in_sales}}</div>
           <div><span class="font-semibold">Payout Frequency:</span> {{ item.payout_frequency }} days</div>
         </div>
       </div>
@@ -111,21 +111,33 @@
       @close="showEdit = false"
       @saved="fetchSettings"
     />
+
+    <ConfirmModal
+        v-if="confirmVisible"
+        :visible="confirmVisible"
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this MLM settings?"
+        @confirm="confirmDelete"
+        @cancel="confirmVisible = false"
+      />
   </div>
 </template>
 
 <script>
 import AddMlmSetting from "./AddMlmSetting.vue";
 import EditMlmSetting from "./EditMlmSetting.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 
 export default {
-  components: { AddMlmSetting, EditMlmSetting },
+  components: { AddMlmSetting, EditMlmSetting,ConfirmModal },
   data() {
     return {
       settings: [],
       showAdd: false,
       showEdit: false,
       selectedSetting: null,
+       mlmsettingsToDelete:null,
+      confirmVisible:null
     };
   },
   methods: {
@@ -133,6 +145,8 @@ export default {
       try {
         const res = await this.$apiGet("/get_mlm_settings");
         this.settings = res.data || [];
+
+        console.log("mlm settings",res)
       } catch (err) {
         console.error(err);
         this.settings = [];
@@ -141,6 +155,29 @@ export default {
     openEdit(item) {
       this.selectedSetting = item;
       this.showEdit = true;
+    },
+     askDeleteConfirmation(mlmsettings) {
+      this.mlmsettingsToDelete = mlmsettings;
+      this.confirmVisible = true;
+    },
+     async confirmDelete() {
+      this.confirmVisible = false;
+      try {
+        const res = await this.$apiDelete(
+          `/delete_mlm_setting/${this.mlmsettingsToDelete.id}`
+        );
+        if (res && res.error){
+      this.$root.$refs.toast.showToast(res.error || "Failed to delete property", "error");
+
+        } else{
+        this.$root.$refs.toast.showToast(res.message, "success");
+        await this.fetchSettings();
+        }
+      } catch (err) {
+        console.error(err);
+       this.$root.$refs.toast.showToast("Failed to delete property", "error");
+      }
+      this.mlmsettingsToDelete = null;
     },
     async deleteSetting(id) {
       if (!confirm("Are you sure?")) return;

@@ -32,7 +32,7 @@ export default {
   methods:{
     async updateSetting(){
       try{
-        await this.$apiPut(`/update_mlm_settings/${this.form.id}/`, this.form);
+        await this.$apiPut(`/update_mlm_setting`,this.form.id, this.form);
         this.$emit('saved'); this.$emit('close');
       }catch(err){ console.error(err); }
     }

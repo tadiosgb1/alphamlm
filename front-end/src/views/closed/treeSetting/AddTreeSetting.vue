@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <Toast ref="toast" />
   <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 p-4">
     <div class="bg-white p-5 rounded-lg shadow-lg w-full max-w-sm">
       <h2 class="text-lg font-semibold mb-3">Add Tree Setting</h2>
@@ -24,10 +26,13 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
+import Toast from "../../../components/Toast.vue";
 export default {
+   components: { Toast },
   data() {
     return {
       form: { max_children: null },
@@ -37,6 +42,10 @@ export default {
     async save() {
       try {
         await this.$apiPost("/post_tree_setting", this.form);
+         this.$root.$refs.toast.showToast(
+          "Property saved successfully ",
+          "success"
+        );
         this.$emit("close");
       } catch (err) {
         console.error("Failed to add tree setting:", err);
