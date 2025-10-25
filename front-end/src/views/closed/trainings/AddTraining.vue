@@ -29,8 +29,16 @@ export default {
   data(){ return { form:{ name:'', price:'', cost:'' } }; },
   methods:{
     async saveTraining(){
-      try{ await this.$apiPost('/post_training', this.form); this.$emit('saved'); this.$emit('close'); }
-      catch(err){ console.error(err); }
+      try{
+        
+        const res=await this.$apiPost('/post_training', this.form); 
+        if(res){
+            this.$root.$refs.toast.showToast("Training Successfully registered", "success");
+        }
+        this.$emit('saved'); this.$emit('close'); }
+      catch(err){ console.error(err);
+          this.$root.$refs.toast.showToast("Training add falied", "error");
+       }
     }
   }
 };

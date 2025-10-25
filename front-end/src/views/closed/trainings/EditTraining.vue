@@ -33,8 +33,17 @@ export default {
   },
   methods:{
     async updateTraining(){ 
-      try{ await this.$apiPut(`/update_training/${this.form.id}/`, this.form); this.$emit('saved'); this.$emit('close'); }
-      catch(err){ console.error(err); }
+      console.log("form id",this.form.id);
+      try{
+       const res= await this.$apiPut(`/update_training`, this.form.id,this.form); 
+       if(res){
+        this.$root.$refs.toast.showToast("Training Successfully Edited", "success");
+       }
+        this.$emit('saved'); this.$emit('close');
+       }
+      catch(err){ console.error(err);
+        this.$root.$refs.toast.showToast("Training Edit failed", "error");
+       }
     }
   }
 };

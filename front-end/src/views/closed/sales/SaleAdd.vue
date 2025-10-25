@@ -54,10 +54,14 @@ export default {
   methods: {
     async saveSale() {
       try {
-        await this.$apiPost("/post_sale", this.form);
+       const res= await this.$apiPost("/post_sale", this.form);
+       if(res){
+         this.$root.$refs.toast.showToast("Training Successfully registered", "success");
+       }
         this.$emit('close');
       } catch (err) {
         console.error(err);
+         this.$root.$refs.toast.showToast("Training delete failed", "error");
       }
     }
   }

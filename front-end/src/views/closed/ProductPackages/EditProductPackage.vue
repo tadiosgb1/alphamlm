@@ -32,7 +32,13 @@ export default {
     productPackage:{ immediate:true, handler(val){ if(val) this.form={...val}; } }
   },
   methods:{
-    async updatePP(){ try{ await this.$apiPut(`/update_product_package/${this.form.id}/`, this.form); this.$emit('saved'); this.$emit('close'); } catch(err){ console.error(err); } }
+    async updatePP(){ try{ const res= await this.$apiPut(`/update_product_package`,this.form.id, this.form); 
+       if(res){
+          this.$root.$refs.toast.showToast("Product Package Successfully edited", "success");
+        }
+      this.$emit('saved'); this.$emit('close'); } catch(err){ console.error(err); 
+         this.$root.$refs.toast.showToast("Product Package delete failed", "error");
+      } }
   }
 };
 </script>

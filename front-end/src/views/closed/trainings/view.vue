@@ -121,8 +121,14 @@ export default {
     openEdit(training){ this.selectedTraining=training; this.showEdit=true; },
     async deleteTraining(id){
       if(!confirm('Are you sure?')) return;
-      try{ await this.$apiDelete(`/delete_training/${id}/`); this.fetchTrainings(this.currentPage); }
-      catch(err){ console.error(err); }
+      try{const res= await this.$apiDelete(`/delete_training`,id);
+        if(res){
+           this.$root.$refs.toast.showToast("Training Successfully deleted", "success");
+        } 
+        this.fetchTrainings(this.currentPage); }
+      catch(err){ console.error(err);
+         this.$root.$refs.toast.showToast("Training delete failed", "error");
+       }
     },
     formatDate(dateStr){ return new Date(dateStr).toLocaleDateString(); }
   },

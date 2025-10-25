@@ -46,8 +46,14 @@ export default {
   },
   methods:{
     async updatePackage(){
-      try{ await this.$apiPut(`/update_package/${this.form.id}/`, this.form); this.$emit('saved'); this.$emit('close'); }
-      catch(err){ console.error(err); }
+      try{ const res=await this.$apiPut(`/update_package`,this.form.id, this.form);
+         if(res){
+          this.$root.$refs.toast.showToast("Package Successfully registered", "success");
+      }
+        this.$emit('saved'); this.$emit('close'); }
+      catch(err){ console.error(err);
+        this.$root.$refs.toast.showToast("Package edit failed", "error");
+       }
     }
   }
 };

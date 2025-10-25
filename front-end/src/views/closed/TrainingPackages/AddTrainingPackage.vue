@@ -29,7 +29,14 @@ export default {
   props:['trainings','packages'],
   data(){ return { form:{ training:null, package:null } }; },
   methods:{
-    async saveTP(){ try{ await this.$apiPost('/post_training_package', this.form); this.$emit('saved'); this.$emit('close'); } catch(err){ console.error(err); } }
+    async saveTP(){ try{ const res=await this.$apiPost('/post_training_package', this.form);
+     if(res){
+            this.$root.$refs.toast.showToast("Training  package Successfully registered", "success");
+        } 
+    this.$emit('saved'); this.$emit('close'); 
+  } catch(err){ console.error(err); 
+     this.$root.$refs.toast.showToast("Training add failed", "error");
+  } }
   }
 };
 </script>

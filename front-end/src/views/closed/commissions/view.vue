@@ -65,7 +65,7 @@
                 class="text-blue-600 hover:text-blue-800 ml-1"
                 title="View Sale Detail"
               >
-                🔍
+                
               </button>
             </td>
 
@@ -78,7 +78,7 @@
                 class="text-green-600 hover:text-green-800 ml-1"
                 title="View Seller Detail"
               >
-                👤
+                
               </button>
             </td>
 
@@ -91,7 +91,7 @@
                 class="text-purple-600 hover:text-purple-800 ml-1"
                 title="View Buyer Detail"
               >
-                👤
+                
               </button>
             </td>
 

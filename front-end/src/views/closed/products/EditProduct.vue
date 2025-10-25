@@ -54,10 +54,17 @@ export default {
   methods: {
     async updateProduct() {
       try {
-        await this.$apiPut(`/update_product/${this.form.id}/`, this.form);
+       const res= await this.$apiPut(`/update_product`,this.form.id, this.form);
+       if(res){
+       this.$root.$refs.toast.showToast("Product Successfully edited", "success");
+       }
+     
         this.$emit('saved');
         this.$emit('close');
-      } catch(err){ console.error(err); }
+      } catch(err){ console.error(err); 
+
+        this.$root.$refs.toast.showToast("Failed to edit product", "error");
+      }
     }
   }
 };

@@ -32,11 +32,16 @@ export default {
   methods: {
     async saveHousing() {
       try {
-        await this.$apiPost("/post_housing", this.form);
+       const res= await this.$apiPost("/post_housing", this.form);
+
+         if(res){
+            this.$root.$refs.toast.showToast("Housing Successfully  deleted", "success");
+        }
         this.$emit("saved");
         this.$emit("close");
       } catch (err) {
         console.error(err);
+         this.$root.$refs.toast.showToast("Housing   delete failed", "error");
       }
     },
   },

@@ -43,8 +43,15 @@ export default {
   data(){ return { form:{ name:'', package_type:'product', price:'', cost:'', category:0 } }; },
   methods:{
     async savePackage(){
-      try{ await this.$apiPost('/post_package', this.form); this.$emit('saved'); this.$emit('close'); }
-      catch(err){ console.error(err); }
+      try{const res= await this.$apiPost('/post_package', this.form); 
+      if(res){
+          this.$root.$refs.toast.showToast("Package Successfully registered", "success");
+      }
+      this.$emit('saved'); this.$emit('close'); 
+     }
+      catch(err){ console.error(err);
+         this.$root.$refs.toast.showToast("Package add failed", "error");
+       }
     }
   }
 };

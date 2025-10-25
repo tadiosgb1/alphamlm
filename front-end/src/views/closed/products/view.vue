@@ -153,9 +153,14 @@ export default {
     async deleteProduct(id) {
       if(!confirm('Are you sure?')) return;
       try {
-        await this.$apiDelete(`/delete_product/${id}/`);
+       const res= await this.$apiDelete(`/delete_product`,id);
+       if(res){
+          this.$root.$refs.toast.showToast("Product Successfully Deleted", "success");
+       }
         this.fetchProducts(this.currentPage);
-      } catch(err){ console.error(err); }
+      } catch(err){ console.error(err); 
+         this.$root.$refs.toast.showToast("Product delete failed", "error");
+      }
     },
     formatDate(dateStr) { return new Date(dateStr).toLocaleDateString(); }
   },

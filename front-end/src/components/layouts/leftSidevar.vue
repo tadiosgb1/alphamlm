@@ -239,8 +239,6 @@ export default {
           color: "#22c55e",
         },
         
-
-
          {
           name: "Wallet Transactions",
           route: "wallet_transactions",
