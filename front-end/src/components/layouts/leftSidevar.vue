@@ -146,6 +146,12 @@ export default {
           icon: "fas fa-user",
           color: "#60a5fa",
         },
+         {
+          name: "Promotor Buyers",
+          route: "promotor_buyers",
+          icon: "fas fa-bell",
+          color: "#22c55e",
+        },
         {
           name: "Network",
           icon: "fas fa-network-wired",
@@ -238,9 +244,9 @@ export default {
           icon: "fas fa-bell",
           color: "#22c55e",
         },
+          
         
-
-
+        
          {
           name: "Wallet Transactions",
           route: "wallet_transactions",
@@ -254,12 +260,7 @@ export default {
           icon: "fas fa-bell",
           color: "#22c55e",
         },
-        // {
-        //   name: "Contacts",
-        //   route: "contacts",
-        //   icon: "fas fa-user",
-        //   color: "#22c55e",
-        // },
+       
       ],
     };
   },

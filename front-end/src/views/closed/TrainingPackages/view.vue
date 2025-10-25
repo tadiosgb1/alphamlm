@@ -126,8 +126,15 @@ export default {
     openEdit(tp){ this.selectedTP=tp; this.showEdit=true; },
     async deleteTrainingPackage(id){
       if(!confirm('Are you sure?')) return;
-      try{ await this.$apiDelete(`/delete_training_package/${id}/`); this.fetchTrainingPackages(this.currentPage); }
-      catch(err){ console.error(err); }
+      try{ const res=await this.$apiDelete(`/delete_training_package`,id); 
+         if(res){
+            this.$root.$refs.toast.showToast("Training  package Successfully  deleted", "success");
+        } 
+        this.fetchTrainingPackages(this.currentPage); 
+      }
+      catch(err){ console.error(err); 
+         this.$root.$refs.toast.showToast("Training  package  delete", "error");
+      }
     },
     formatDate(dateStr){ return new Date(dateStr).toLocaleDateString(); }
   },

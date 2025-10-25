@@ -41,11 +41,16 @@ export default {
   methods: {
     async updateHousing() {
       try {
-        await this.$apiPut(`/update_housing/${this.form.id}/`, this.form);
+        const res=await this.$apiPut(`/update_housing` ,this.form.id, this.form);
+
+         if(res){
+            this.$root.$refs.toast.showToast("Housing edited Successfully", "success");
+        }
         this.$emit("saved");
         this.$emit("close");
       } catch (err) {
         console.error(err);
+        this.$root.$refs.toast.showToast("Housing delete failed", "error");
       }
     },
   },

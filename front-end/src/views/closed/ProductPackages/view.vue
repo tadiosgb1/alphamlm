@@ -126,8 +126,15 @@ export default {
     openEdit(pp){ this.selectedPP=pp; this.showEdit=true; },
     async deleteProductPackage(id){
       if(!confirm('Are you sure?')) return;
-      try{ await this.$apiDelete(`/delete_product_package/${id}/`); this.fetchProductPackages(this.currentPage); }
-      catch(err){ console.error(err); }
+      try{const res= await this.$apiDelete(`/delete_product_package`,id); 
+        if(res){
+          this.$root.$refs.toast.showToast("Product Package Successfully deleted", "success");
+        }
+        this.fetchProductPackages(this.currentPage);
+       }
+      catch(err){ console.error(err);
+        this.$root.$refs.toast.showToast("Product Package delete failed", "error");
+       }
     },
     formatDate(dateStr){ return new Date(dateStr).toLocaleDateString(); }
   },

@@ -53,10 +53,16 @@ export default {
   methods: {
     async saveProduct() {
       try {
-        await this.$apiPost('/post_product', this.form);
+      const res=  await this.$apiPost('/post_product', this.form);
+       if(res){
+       this.$root.$refs.toast.showToast("Product Successfully registered", "success");
+      }
         this.$emit('saved');
         this.$emit('close');
-      } catch(err){ console.error(err); }
+      } catch(err){ console.error(err);
+         this.$root.$refs.toast.showToast("failed to add product", "error");
+       }
+
     }
   }
 };

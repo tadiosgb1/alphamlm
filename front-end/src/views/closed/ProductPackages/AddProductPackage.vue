@@ -29,7 +29,13 @@ export default {
   props:['products','packages'],
   data(){ return { form:{ product:null, package:null } }; },
   methods:{
-    async savePP(){ try{ await this.$apiPost('/post_product_package', this.form); this.$emit('saved'); this.$emit('close'); } catch(err){ console.error(err); } }
+    async savePP(){ try{ const res=await this.$apiPost('/post_product_package', this.form); 
+       if(res){
+          this.$root.$refs.toast.showToast("Package Successfully added", "success");
+        }
+    this.$emit('saved'); this.$emit('close'); } catch(err){ console.error(err); 
+      this.$root.$refs.toast.showToast("Product Package add failed", "error");
+    } }
   }
 };
 </script>

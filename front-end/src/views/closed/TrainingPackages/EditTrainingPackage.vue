@@ -32,7 +32,13 @@ export default {
     trainingPackage:{ immediate:true, handler(val){ if(val) this.form={...val}; } }
   },
   methods:{
-    async updateTP(){ try{ await this.$apiPut(`/update_training_package/${this.form.id}/`, this.form); this.$emit('saved'); this.$emit('close'); } catch(err){ console.error(err); } }
+    async updateTP(){ try{const res= await this.$apiPut(`/update_training_package`,this.form.id, this.form); 
+        if(res){
+            this.$root.$refs.toast.showToast("Training  package Successfully  edited", "success");
+        } 
+      this.$emit('saved'); this.$emit('close'); } catch(err){ console.error(err); 
+         this.$root.$refs.toast.showToast("Training  package edit failed", "error");
+      } }
   }
 };
 </script>

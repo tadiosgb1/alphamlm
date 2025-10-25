@@ -137,8 +137,15 @@ export default {
     openEdit(pkg){ this.selectedPackage=pkg; this.showEdit=true; },
     async deletePackage(id){
       if(!confirm('Are you sure?')) return;
-      try{ await this.$apiDelete(`/delete_package/${id}/`); this.fetchPackages(this.currentPage); }
-      catch(err){ console.error(err); }
+      try{const res= await this.$apiDelete(`/delete_package`,id);
+        if(res){
+          this.$root.$refs.toast.showToast("Package Successfully deleted", "success");
+        }
+        this.fetchPackages(this.currentPage);
+       }
+      catch(err){ console.error(err);
+         this.$root.$refs.toast.showToast("Package delete failed", "error");
+       }
     },
     formatDate(dateStr){ return new Date(dateStr).toLocaleDateString(); }
   },
