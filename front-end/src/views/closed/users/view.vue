@@ -16,8 +16,8 @@
             class="-mb-px flex overflow-x-auto no-scrollbar px-2 sm:px-6 space-x-4 sm:space-x-6"
             aria-label="Tabs"
           >
+            <!-- All Users Tab -->
             <button
-           
               @click="activeTab = 'allUsers'"
               class="tab-link"
               :class="{ 'tab-active': activeTab === 'allUsers' }"
@@ -25,13 +25,13 @@
               All Users
             </button>
 
+            <!-- Promoter/Buyers Tab -->
             <button
-              
-              @click="activeTab = 'staffs'"
+              @click="activeTab = 'promoterBuyer'"
               class="tab-link"
-              :class="{ 'tab-active': activeTab === 'staffs' }"
+              :class="{ 'tab-active': activeTab === 'promoterBuyer' }"
             >
-              Staffs
+              Promotors/Buyers
             </button>
           </nav>
         </div>
@@ -47,21 +47,18 @@
 
 <script>
 import allUsers from "./allUsers.vue";
-import staffs from "../stafs/view.vue";
+import promoterBuyer from "../promotorBuyer/view.vue";
 
 export default {
   components: {
     allUsers,
-    staffs,
+    promoterBuyer,
   },
   data() {
     const is_superuser = localStorage.getItem("is_superuser") === "true";
 
     // Set default tab based on role/permissions
-    let defaultTab = "staffs";
-    if (is_superuser) {
-      defaultTab = "allUsers";
-    }
+    let defaultTab = is_superuser ? "allUsers" : "promoterBuyer";
 
     return {
       is_superuser,
