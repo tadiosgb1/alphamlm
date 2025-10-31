@@ -1,271 +1,242 @@
 <template>
-  <div>
-    <Toast ref="toast" />
-    <div class="min-h-screen bg-gray-100">
-      <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <!-- Header -->
-        <div
-          class="bg-primary text-white px-6 py-4 text-xl font-bold flex justify-between items-center"
+  <div class="text-sm text-gray-800">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-lg font-semibold">All Users</h1>
+      <button
+        @click="showAdd = true"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-xs"
+      >
+        + Add User
+      </button>
+    </div>
+
+    <!-- Search + Page Size -->
+    <div
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2"
+    >
+      <input
+        v-model="searchQuery"
+        @input="fetchUsers(1)"
+        type="text"
+        placeholder="Search by name or email..."
+        class="border rounded-md px-2 py-1 text-xs w-full sm:w-64 focus:outline-none focus:ring-1 focus:ring-blue-400"
+      />
+      <div class="flex items-center gap-2 text-xs">
+        <label>Show</label>
+        <select
+          v-model="pageSize"
+          @change="fetchUsers(1)"
+          class="border rounded-md px-1 py-0.5 text-xs"
         >
-          <span>Users List</span>
-          <button
-            @click="showAddModal = true"
-            class="bg-white text-primary px-4 py-1 rounded shadow hover:bg-gray-100 font-semibold flex items-center gap-2"
-          >
-            <i class="fas fa-user-plus"></i> Add User
-          </button>
-        </div>
+          <option v-for="size in [1, 5, 10, 20, 100]" :key="size" :value="size">
+            {{ size }}
+          </option>
+        </select>
+        <span>entries</span>
+      </div>
+    </div>
 
-        <!-- Search + Page Size -->
-        <div class="p-4 flex flex-col md:flex-row gap-3 md:items-center">
-          <input
-            v-model="search"
-            @input="fetchUsers(1)"
-            type="text"
-            placeholder="Search by name, email, or phone..."
-            class="flex-1 px-4 py-2 border rounded-lg focus:ring focus:ring-orange-400"
-          />
-
-          <div class="flex items-center gap-2">
-            <label class="text-gray-600 text-sm">Show</label>
-            <select
-              v-model="pageSize"
-              @change="fetchUsers(1)"
-              class="border px-2 py-1 rounded-lg focus:ring focus:ring-orange-400"
-            >
-              <option v-for="size in [5,10,20,50,100,1000]" :key="size" :value="size">
-                {{ size }}
-              </option>
-            </select>
-            <span class="text-gray-600 text-sm">per page</span>
-          </div>
-        </div>
-
-        <!-- ✅ Desktop Table -->
-        <div class="hidden md:block overflow-x-auto">
-          <table class="w-full border-collapse">
-            <thead class="bg-gray-100 text-left">
-              <tr>
-                <th class="px-4 py-2">ID</th>
-                <th class="px-4 py-2">Name</th>
-                <th class="px-4 py-2">Email</th>
-                <th class="px-4 py-2">Phone</th>
-                <th class="px-4 py-2">Groups</th>
-                <th class="px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50">
-                <td class="px-4 py-2">{{ user.id }}</td>
-                <td class="px-4 py-2">
-                  {{ user.first_name }} {{ user.middle_name }} {{ user.last_name }}
-                </td>
-                <td class="px-4 py-2">{{ user.email }}</td>
-                <td class="px-4 py-2">{{ user.phone_number }}</td>
-                <td class="px-4 py-2">
-                  <span
-                    v-if="user.groups && user.groups.length"
-                    class="bg-gray-200 px-2 py-1 rounded text-sm"
-                  >
-                    {{ user.groups.join(", ") }}
-                  </span>
-                  <span v-else class="text-gray-400">No groups</span>
-                </td>
-                <td class="px-4 py-2 flex flex-wrap gap-2">
-                  <button
-                    class="flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 text-sm font-medium rounded-lg border border-blue-200 hover:bg-blue-100 transition"
-                    @click="goToDetail(user.id)"
-                  >
-                    <i class="fas fa-info-circle mr-1"></i> Details
-                  </button>
-                  <button
-                    v-if="!user.is_active"
-                    @click="activateUser(user.id)"
-                    class="flex items-center px-3 py-1.5 bg-green-50 text-green-700 text-sm font-medium rounded-lg border border-green-200 hover:bg-green-100 transition"
-                  >
-                    <i class="fas fa-check-circle mr-1"></i> Activate
-                  </button>
-                  <button
-                    v-else
-                    @click="deactivateUser(user.id)"
-                    class="flex items-center px-3 py-1.5 bg-orange-50 text-orange-700 text-sm font-medium rounded-lg border border-orange-200 hover:bg-orange-100 transition"
-                  >
-                    <i class="fas fa-ban mr-1"></i> Deactivate
-                  </button>
-                </td>
-              </tr>
-              <tr v-if="users.length === 0">
-                <td colspan="6" class="text-center py-4 text-gray-500">
-                  No users found
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- ✅ Mobile Card/List Layout -->
-        <div class="md:hidden p-3 space-y-3">
-          <div
-            v-for="user in users"
+    <!-- Table -->
+    <div class="overflow-x-auto border rounded-lg shadow-sm">
+      <table class="min-w-full text-xs hidden sm:table">
+        <thead class="bg-gray-200 text-gray-600 uppercase text-[11px]">
+          <tr>
+            <th class="px-3 py-2 text-left">#</th>
+            <th class="px-3 py-2 text-left">Email</th>
+            <th class="px-3 py-2 text-left">Full Name</th>
+            <th class="px-3 py-2 text-left">Phone</th>
+            <th class="px-3 py-2 text-left">Wallet</th>
+            <th class="px-3 py-2 text-left">Active</th>
+            <th class="px-3 py-2 text-left">Joined</th>
+            <th class="px-3 py-2 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          <tr
+            v-for="(user, index) in users"
             :key="user.id"
-            class="bg-white shadow-sm rounded-lg p-4 border border-gray-200"
+            class="border-t hover:bg-gray-50"
           >
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="font-semibold text-gray-800">
-                {{ user.first_name }} {{ user.middle_name }} {{ user.last_name }}
-              </h3>
-              <span
-                class="text-xs px-2 py-1 rounded-full"
-                :class="user.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
-              >
-                {{ user.is_active ? 'Active' : 'Inactive' }}
+            <td class="px-3 py-2">
+              {{ (currentPage - 1) * pageSize + index + 1 }}
+            </td>
+            <td class="px-3 py-2 font-medium">{{ user.email }}</td>
+            <td class="px-3 py-2">
+              {{ user.first_name }} {{ user.middle_name }} {{ user.last_name }}
+            </td>
+            <td class="px-3 py-2">{{ user.phone_number || "-" }}</td>
+            <td class="px-3 py-2">{{ user.wallet_balance }}</td>
+            <td class="px-3 py-2">
+              <span :class="user.is_active ? 'text-green-600' : 'text-red-500'">
+                {{ user.is_active ? "Yes" : "No" }}
               </span>
-            </div>
-
-            <div class="text-sm text-gray-600 space-y-1">
-              <p><strong>ID:</strong> {{ user.id }}</p>
-              <p><strong>Email:</strong> {{ user.email }}</p>
-              <p><strong>Phone:</strong> {{ user.phone_number }}</p>
-              <p>
-                <strong>Groups:</strong>
-                <span v-if="user.groups && user.groups.length">
-                  {{ user.groups.join(', ') }}
-                </span>
-                <span v-else class="text-gray-400">No groups</span>
-              </p>
-            </div>
-
-            <!-- Actions -->
-            <div class="flex flex-wrap gap-2 mt-3">
+            </td>
+            <td class="px-3 py-2 text-gray-500">
+              {{ formatDate(user.date_joined) }}
+            </td>
+            <td class="px-3 py-2">
               <button
-                class="flex-1 flex justify-center items-center px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-lg border border-blue-200 hover:bg-blue-100"
-                @click="goToDetail(user.id)"
+                class="text-blue-500 hover:text-blue-700 mr-2"
+                @click="openEdit(user)"
               >
-                <i class="fas fa-info-circle mr-1"></i> Details
+                ✎
               </button>
               <button
-                v-if="!user.is_active"
-                @click="activateUser(user.id)"
-                class="flex-1 flex justify-center items-center px-3 py-1.5 bg-green-50 text-green-700 text-xs font-medium rounded-lg border border-green-200 hover:bg-green-100"
+                class="text-red-500 hover:text-red-700"
+                @click="deleteUser(user.id)"
               >
-                <i class="fas fa-check-circle mr-1"></i> Activate
+                🗑
+              </button>
+            </td>
+          </tr>
+
+          <tr v-if="users.length === 0">
+            <td colspan="8" class="text-center py-3 text-gray-400">
+              No users found.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Mobile List -->
+      <div class="sm:hidden flex flex-col gap-2">
+        <div
+          v-for="user in users"
+          :key="user.id"
+          class="border rounded p-2 bg-white shadow-sm"
+        >
+          <div class="flex justify-between items-center">
+            <span class="font-medium">{{ user.email }}</span>
+            <div>
+              <button
+                class="text-blue-500 hover:text-blue-700 mr-2"
+                @click="openEdit(user)"
+              >
+                ✎
               </button>
               <button
-                v-else
-                @click="deactivateUser(user.id)"
-                class="flex-1 flex justify-center items-center px-3 py-1.5 bg-orange-50 text-orange-700 text-xs font-medium rounded-lg border border-orange-200 hover:bg-orange-100"
+                class="text-red-500 hover:text-red-700"
+                @click="deleteUser(user.id)"
               >
-                <i class="fas fa-ban mr-1"></i> Deactivate
+                🗑
               </button>
             </div>
           </div>
-
-          <div v-if="users.length === 0" class="text-center text-gray-500 py-4">
-            No users found
-          </div>
-        </div>
-
-        <!-- Pagination -->
-        <div class="p-4 flex justify-between items-center">
-          <button
-            :disabled="!pagination.previous"
-            @click="changePage(pagination.current_page - 1)"
-            class="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span class="text-gray-700 text-sm">
-            Page {{ pagination.current_page }} of {{ pagination.total_pages }}
-          </span>
-          <button
-            :disabled="!pagination.next"
-            @click="changePage(pagination.current_page + 1)"
-            class="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
-          >
-            Next
-          </button>
+          <p class="text-gray-500 text-[11px] mt-1">
+            {{ user.first_name }} {{ user.last_name }}
+          </p>
+          <p class="text-gray-500 text-[11px] mt-1">
+            Phone: {{ user.phone_number || "-" }}
+          </p>
+          <p class="text-gray-500 text-[11px] mt-1">
+            Wallet: {{ user.wallet_balance }}
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- Add Modal -->
-    <Add
-      v-if="showAddModal"
-      :visible="showAddModal"
-      @close="showAddModal = false"
-      @success="fetchUsers"
+    <!-- Pagination -->
+    <div class="flex items-center justify-between mt-4 text-xs">
+      <span
+        >Page {{ currentPage }} of {{ totalPages }} ({{ count }} total)</span
+      >
+      <div class="flex items-center gap-1">
+        <button
+          @click="fetchUsers(currentPage - 1)"
+          :disabled="!previousPage"
+          class="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50"
+        >
+          ◀ Prev
+        </button>
+        <button
+          @click="fetchUsers(currentPage + 1)"
+          :disabled="!nextPage"
+          class="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50"
+        >
+          Next ▶
+        </button>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <AddUser v-if="showAdd" @close="showAdd = false" @saved="fetchUsers" />
+    <EditUser
+      v-if="showEdit"
+      :user="selectedUser"
+      @close="showEdit = false"
+      @saved="fetchUsers"
     />
   </div>
 </template>
 
 <script>
-import Toast from "@/components/Toast.vue";
-import Add from "./add.vue";
+import AddUser from "./AddUser.vue";
+import EditUser from "./EditUser.vue";
 
 export default {
-  name: "UsersView",
-  components: { Toast, Add },
+  components: { AddUser, EditUser },
   data() {
     return {
       users: [],
-      search: "",
+      count: 0,
+      totalPages: 1,
+      currentPage: 1,
       pageSize: 10,
-      pagination: {
-        current_page: 1,
-        total_pages: 1,
-        next: null,
-        previous: null,
-      },
-      showAddModal: false,
+      nextPage: null,
+      previousPage: null,
+      searchQuery: "",
+      showAdd: false,
+      showEdit: false,
+      selectedUser: null,
     };
-  },
-  mounted() {
-    this.fetchUsers();
   },
   methods: {
     async fetchUsers(page = 1) {
       try {
         const params = {
-          search: this.search,
           page,
           page_size: this.pageSize,
-          ordering: "-id",
+          search: this.searchQuery || undefined,
         };
-        const response = await this.$apiGet("/get_users", params);
-        this.users = response.data || [];
-        this.pagination = {
-          current_page: response.current_page,
-          total_pages: response.total_pages,
-          next: response.next,
-          previous: response.previous,
-        };
-      } catch (error) {
-        console.error(error);
-        this.$root.$refs.toast.showToast("Failed to load users", "error");
+        const res = await this.$apiGet("/get_users", params);
+
+        console.log("res of users", res);
+
+        this.users = res.data || [];
+        this.count = res.count;
+        this.totalPages = res.total_pages;
+        this.currentPage = res.current_page;
+        this.nextPage = res.next;
+        this.previousPage = res.previous;
+      } catch (err) {
+        console.error(err);
       }
     },
-
-    activateUser(id) {
-      this.$apiPost(`/activate_user/${id}`, { id }).then(() => {
-        this.$root.$refs.toast.showToast("User activated successfully", "success");
-        this.fetchUsers(this.pagination.current_page);
-      });
+    openEdit(user) {
+      this.selectedUser = user;
+      this.showEdit = true;
     },
-
-    deactivateUser(id) {
-      this.$apiDelete(`/deactivate_user`, id).then(() => {
-        this.$root.$refs.toast.showToast("User deactivated successfully", "success");
-        this.fetchUsers(this.pagination.current_page);
-      });
+    async deleteUser(id) {
+      if (!confirm("Are you sure you want to delete this user?")) return;
+      try {
+        await this.$apiDelete(`/delete_user/${id}/`);
+        this.fetchUsers(this.currentPage);
+        this.$root.$refs.toast.showToast(
+          "User deleted successfully",
+          "success"
+        );
+      } catch (err) {
+        console.error(err);
+        this.$root.$refs.toast.showToast("Failed to delete user", "error");
+      }
     },
-
-    changePage(page) {
-      this.fetchUsers(page);
+    formatDate(dateStr) {
+      return new Date(dateStr).toLocaleDateString();
     },
-
-    goToDetail(id) {
-      this.$router.push(`/user_detail/${id}`);
-    },
+  },
+  mounted() {
+    this.fetchUsers();
   },
 };
 </script>

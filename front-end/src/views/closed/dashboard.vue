@@ -27,7 +27,7 @@
               class="text-xl md:text-2xl font-extrabold text-blue-400 truncate"
               title="NePAF"
             >
-              PMS
+              MLM
             </h1>
           </div>
         </div>
@@ -148,37 +148,38 @@
     </header>
 
     <!-- Main Content -->
-    <div class="flex flex-1 overflow-hidden">
-      <!-- Sidebar always visible on large screens (lg+), hidden on md and below -->
-    <div class="hidden lg:block w-64 h-screen bg-white" >
-      <Sidebar />
-    </div>
+ <!-- Main Content -->
+<div class="flex flex-1 overflow-hidden">
+  <!-- Sidebar always visible on large screens (lg+), hidden on md and below -->
+  <div class="hidden lg:block w-64 bg-white h-[calc(100vh-4rem)] overflow-y-auto sticky top-16">
+    <Sidebar />
+  </div>
 
+  <!-- Overlay and Slide-in Sidebar for tablet and mobile -->
+  <div
+    v-if="showSidebar && screenWidth < 1024"
+    class="fixed inset-0 bg-black bg-opacity-50 z-40"
+    @click="toggleSidebar"
+  ></div>
+  <div
+    v-if="showSidebar && screenWidth < 1024"
+    class="fixed left-0 top-0 w-64 bg-white shadow-lg z-50 h-full overflow-y-auto"
+  >
+    <button
+      class="absolute top-4 right-4 text-gray-600"
+      @click="toggleSidebar"
+    >
+      <i class="fas fa-times text-xl"></i>
+    </button>
+    <Sidebar />
+  </div>
 
-      <!-- Overlay and Slide-in Sidebar for tablet and mobile -->
-      <div
-        v-if="showSidebar && screenWidth < 1024"
-        class="fixed inset-0 bg-black bg-opacity-50 z-40"
-        @click="toggleSidebar"
-      ></div>
-      <div
-        v-if="showSidebar && screenWidth < 1024"
-        class="fixed left-0 top-0 w-64 bg-white shadow-lg z-50 h-full overflow-y-auto"
-      >
-        <button
-          class="absolute top-4 right-4 text-gray-600"
-          @click="toggleSidebar"
-        >
-          <i class="fas fa-times text-xl"></i>
-        </button>
-        <Sidebar />
-      </div>
+  <!-- Main content slot -->
+  <main class="flex-1 overflow-y-auto">
+    <router-view />
+  </main>
+</div>
 
-      <!-- Main content slot -->
-      <main class="flex-1 overflow-y-auto">
-        <router-view />
-      </main>
-    </div>
 
     <Profile
       :visible="showProfileModal"
@@ -214,7 +215,10 @@ export default {
     this.name = localStorage.getItem("name");
 
     const params = { page_size: 1000000 };
-    const res = await this.$apiGetById(`/get_unread_notifications`,localStorage.getItem('userId'));
+    const res = await this.$apiGetById(
+      `/get_unread_notifications`,
+      localStorage.getItem("userId")
+    );
     this.notifications = res.data;
     console.log("notifications", this.notifications);
   },

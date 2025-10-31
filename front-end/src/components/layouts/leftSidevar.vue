@@ -2,7 +2,7 @@
   <div>
     <transition name="slide">
       <aside
-        class="w-64 flex flex-col fixed md:relative z-15 h-full transition-all duration-300 bg-white mt-0 lg:mt-1"
+        class="w-64 flex flex-col z-40 md:fixed md:top-16 md:left-0 md:h-[calc(100vh-4rem)] md:overflow-y-auto transition-all duration-300 bg-white mt-0 lg:mt-1 shadow-md"
       >
         <!-- Sidebar Title -->
         <div
@@ -20,7 +20,7 @@
         </div>
 
         <!-- Navigation -->
-        <div class="flex-1 overflow-y-auto">
+        <div class="flex-1">
           <ul class="px-2 space-y-0">
             <li v-for="item in filteredMenuItems" :key="item.name">
               <!-- Regular menu item -->
@@ -36,9 +36,8 @@
                   <i
                     :class="[item.icon, 'w-4 text-sm mr-2']"
                     :style="{
-                      color: $route.name === item.route
-                        ? '#f97316'
-                        : item.color,
+                      color:
+                        $route.name === item.route ? '#f97316' : item.color,
                     }"
                   ></i>
                   <span>{{ item.name }}</span>
@@ -51,8 +50,9 @@
                   @click="toggleSubmenu(item.name)"
                   class="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-orange-100 text-sm font-medium transition-all duration-200"
                   :class="{
-                    'bg-orange-50 text-orange-600 font-semibold':
-                      isSubmenuOpen(item.name),
+                    'bg-orange-50 text-orange-600 font-semibold': isSubmenuOpen(
+                      item.name
+                    ),
                   }"
                 >
                   <div class="flex items-center">
@@ -95,9 +95,7 @@
                           :class="[sub.icon, 'w-4 text-sm mr-2']"
                           :style="{
                             color:
-                              $route.name === sub.route
-                                ? '#f97316'
-                                : sub.color,
+                              $route.name === sub.route ? '#f97316' : sub.color,
                           }"
                         ></i>
                         {{ sub.name }}
@@ -146,7 +144,7 @@ export default {
           icon: "fas fa-user",
           color: "#60a5fa",
         },
-         {
+        {
           name: "Promotor Buyers",
           route: "promotor_buyers",
           icon: "fas fa-bell",
@@ -177,90 +175,72 @@ export default {
             },
           ],
         },
-
-         {
+        {
           name: "Configurations",
           route: "configurations",
-          icon: "fas fa-bell",
+          icon: "fas fa-gear",
           color: "#22c55e",
         },
-
         {
           name: "Settings",
           route: "settings",
-          icon: "fas fa-bell",
+          icon: "fas fa-cog",
           color: "#22c55e",
         },
-       
-
-        
-          {
+        {
           name: "Commissions",
           route: "commissions",
-          icon: "fas fa-bell",
+          icon: "fas fa-money-bill",
           color: "#22c55e",
         },
-        
-
-     
-  
         {
           name: "Categories",
           route: "categories",
-          icon: "fas fa-bell",
+          icon: "fas fa-tags",
           color: "#22c55e",
         },
         {
           name: "Houses",
           route: "housings",
-          icon: "fas fa-bell",
+          icon: "fas fa-home",
           color: "#22c55e",
         },
-           {
+        {
           name: "Products",
           route: "view_products",
-          icon: "fas fa-bell",
+          icon: "fas fa-box",
           color: "#22c55e",
         },
-        
         {
           name: "Trainings",
           route: "trainings",
-          icon: "fas fa-bell",
+          icon: "fas fa-book",
           color: "#22c55e",
         },
-
         {
           name: "Packages",
           route: "packages",
-          icon: "fas fa-bell",
+          icon: "fas fa-boxes",
           color: "#22c55e",
         },
-
-        
-         {
+        {
           name: "Sales",
           route: "sales",
-          icon: "fas fa-bell",
+          icon: "fas fa-shopping-cart",
           color: "#22c55e",
         },
-          
-        
-        
-         {
+        {
           name: "Wallet Transactions",
           route: "wallet_transactions",
-          icon: "fas fa-bell",
+          icon: "fas fa-wallet",
           color: "#22c55e",
         },
-       
         {
           name: "Notifications",
           route: "notifications",
           icon: "fas fa-bell",
           color: "#22c55e",
         },
-       
       ],
     };
   },

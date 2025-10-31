@@ -1,4 +1,3 @@
 <template>
-  <div>edit</div>
+  <div>edit user</div>
 </template>
-<script></script>
