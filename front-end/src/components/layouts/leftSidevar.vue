@@ -175,6 +175,37 @@ export default {
             },
           ],
         },
+  
+        {
+          name: "Downlist",
+          route: "downlists",
+          icon: "fas fa-gear",
+          color: "#22c55e",
+        },
+
+        {
+          name: "Referallist",
+          route: "referallists",
+          icon: "fas fa-gear",
+          color: "#22c55e",
+        },
+
+
+
+            {
+          name: "Withdraw Requests",
+          route: "withdraw-requests",
+          icon: "fas fa-gear",
+          color: "#22c55e",
+        },
+            {
+          name: "Withdraw Statements",
+          route: "withdraw-statements",
+          icon: "fas fa-gear",
+          color: "#22c55e",
+        },
+
+
         {
           name: "Configurations",
           route: "configurations",

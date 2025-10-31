@@ -45,7 +45,11 @@ import walletTransactions from '../views/closed/walletTransactions/view.vue';
 import Settings from '../views/closed/settings/view.vue';
 import Housings from '../views/closed/housing/view.vue';
 import PromotorBuyer from '../views/closed/promotorBuyer/view.vue';
+import Downlist  from '../views/closed/downlist/view.vue';
+import Referallist  from '../views/closed/referalList/view.vue';
+import withDrawRequest  from '../views/closed/payout/payoutRequest.vue';
 
+import WithdrawStatement  from '../views/closed/payout/payoutStatements.vue';
 
 
 
@@ -104,7 +108,11 @@ const routes = [
       { path: "wallet_transactions", name: "wallet_transactions", component: walletTransactions},
       { path: "housings", name: "housings", component: Housings},
       { path: "promotor_buyers", name: "promotor_buyers", component: PromotorBuyer},
+      { path: "downlists", name: "downlists", component: Downlist},
+      { path: "referallists", name: "referallists", component: Referallist},
 
+     { path: "withdraw-requests", name: "withdraw-requests", component: withDrawRequest},
+      { path: "withdraw-statements", name: "withdraw-statements", component: WithdrawStatement},
 
     ],
   },
