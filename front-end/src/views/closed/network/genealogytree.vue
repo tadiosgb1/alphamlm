@@ -1,6 +1,5 @@
 <template>
   <div class="page">
-
     <!-- Search -->
     <div class="search-bar">
       <input v-model="search" placeholder="Search Email or ID" />
@@ -15,7 +14,6 @@
     </div>
 
     <div v-if="loading" class="loading">Loading tree…</div>
-
   </div>
 </template>
 
@@ -29,18 +27,19 @@ export default {
       tree: null,
       loading: true,
       search: "",
-      _idCounter: 0
+      _idCounter: 0,
     };
   },
 
   methods: {
     async fetchTree() {
-      const userId = this.search || localStorage.getItem("userId") ;
+      const userId =
+        this.search ||
+        this.$route.query.userId ||
+        localStorage.getItem("userId");
       const res = await this.$apiGetById("/get_user_tree", userId);
-
       const root = res.data ?? res;
       this.tree = this.normalize(root);
-
       this.loading = false;
     },
 
@@ -48,9 +47,11 @@ export default {
     normalize(node) {
       const copy = {
         ...node,
-        children: Array.isArray(node.children) ? node.children.map(c => this.normalize(c)) : [],
+        children: Array.isArray(node.children)
+          ? node.children.map((c) => this.normalize(c))
+          : [],
         placeholder: false,
-        _renderId: "n" + (this._idCounter++)
+        _renderId: "n" + this._idCounter++,
       };
 
       while (copy.children.length < 3) {
@@ -59,7 +60,7 @@ export default {
           email: null,
           placeholder: true,
           children: [],
-          _renderId: "p" + (this._idCounter++)
+          _renderId: "p" + this._idCounter++,
         });
       }
 
@@ -67,17 +68,17 @@ export default {
     },
 
     searchUser() {
-      this.fetchTree()
+      this.fetchTree();
     },
 
     onAddHere(node) {
       alert("Add new user under this node");
-    }
+    },
   },
 
   mounted() {
     this.fetchTree();
-  }
+  },
 };
 </script>
 
@@ -91,7 +92,7 @@ export default {
 
 .tree-wrapper {
   width: 100%;
-  overflow-x: auto;    /* HORIZONTAL SCROLL FOR MOBILE */
+  overflow-x: auto; /* HORIZONTAL SCROLL FOR MOBILE */
   padding: 30px;
 }
 

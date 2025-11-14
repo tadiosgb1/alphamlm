@@ -12,7 +12,7 @@
           <input
             v-model="filters.username"
             type="text"
-            placeholder="Enter username"
+            placeholder="Enter username (email)"
             class="border rounded-md px-2 py-1 w-full focus:ring-1 focus:ring-blue-400 text-xs"
           />
         </div>
@@ -23,7 +23,9 @@
             class="border rounded-md px-2 py-1 text-xs focus:ring-1 focus:ring-blue-400"
           >
             <option value="">Please select</option>
-            <option v-for="lvl in 5" :key="lvl" :value="lvl">Level {{ lvl }}</option>
+            <option v-for="lvl in 20" :key="lvl" :value="lvl">
+              Level {{ lvl }}
+            </option>
           </select>
         </div>
         <div>
@@ -33,9 +35,12 @@
             class="border rounded-md px-2 py-1 text-xs focus:ring-1 focus:ring-blue-400"
           >
             <option value="">Please select</option>
-            <option v-for="lvl in 5" :key="lvl" :value="lvl">Level {{ lvl }}</option>
+            <option v-for="lvl in 20" :key="lvl" :value="lvl">
+              Level {{ lvl }}
+            </option>
           </select>
         </div>
+
         <div class="flex gap-2">
           <button
             @click="search"
@@ -73,28 +78,51 @@
         <thead class="bg-gray-200 text-gray-600 uppercase text-[11px]">
           <tr>
             <th class="px-3 py-2 text-left">SL NO</th>
-            <th class="px-3 py-2 text-left">Name</th>
-            <th class="px-3 py-2 text-left">Current Package</th>
-            <th class="px-3 py-2 text-left">Sponsor Name</th>
+            <th class="px-3 py-2 text-left">Email</th>
+            <th class="px-3 py-2 text-left">Wallet Balance</th>
+            <th class="px-3 py-2 text-left">Phone</th>
             <th class="px-3 py-2 text-left">Date of Joining</th>
             <th class="px-3 py-2 text-left">User Level</th>
             <th class="px-3 py-2 text-center">Go to Tree</th>
           </tr>
         </thead>
+
         <tbody class="bg-white">
           <tr
             v-for="(user, i) in filteredList"
-            :key="user.id"
+            :key="user.id + '-' + i"
             class="border-t hover:bg-gray-50"
           >
             <td class="px-3 py-2">{{ i + 1 }}</td>
-            <td class="px-3 py-2 font-medium">{{ user.name }}</td>
-            <td class="px-3 py-2">{{ user.package }}</td>
-            <td class="px-3 py-2">{{ user.sponsor }}</td>
-            <td class="px-3 py-2 text-gray-500">{{ user.joined }}</td>
+
+            <td class="px-3 py-2 font-medium">
+              {{ user.email }}
+            </td>
+
+            <td class="px-3 py-2">{{ user.wallet_balance }} Birr</td>
+
+            <td class="px-3 py-2">{{ user.phone }}</td>
+
+            <td class="px-3 py-2 text-gray-500">
+              {{ formatDate(user.date_joined) }}
+            </td>
+
             <td class="px-3 py-2">{{ user.level }}</td>
+
             <td class="px-3 py-2 text-center">
-              <button class="text-blue-500 hover:text-blue-700">🌳</button>
+              <button
+                @click="goSpecificTree(user.id)"
+                class="text-blue-500 hover:text-blue-700"
+              >
+                Go Tree
+              </button>
+              <button
+                v-if="subdownlist"
+                @click="downlist(user.id)"
+                class="text-blue-500 hover:text-blue-700"
+              >
+                Downlist
+              </button>
             </td>
           </tr>
 
@@ -112,6 +140,7 @@
 <script>
 export default {
   name: "DownlineList",
+
   data() {
     return {
       filters: {
@@ -119,71 +148,93 @@ export default {
         fromLevel: "",
         toLevel: "",
       },
-      users: [
-        {
-          id: 1,
-          name: "Gizachew Bayable (samil123)",
-          package: "Silver",
-          sponsor: "Shewangzaw Belay (Shewa)",
-          joined: "Sep 22nd 2022 - 10:47PM",
-          level: 1,
-        },
-        {
-          id: 2,
-          name: "Masersha Dessie (Agumas)",
-          package: "Silver",
-          sponsor: "Shewangzaw Belay (Shewa)",
-          joined: "Aug 6th 2022 - 9:40PM",
-          level: 1,
-        },
-        {
-          id: 3,
-          name: "Henok Tesfaye (Etcarejr)",
-          package: "Silver",
-          sponsor: "Shewangzaw Belay (Shewa)",
-          joined: "Aug 15th 2022 - 6:05PM",
-          level: 2,
-        },
-        {
-          id: 4,
-          name: "Ephrem Abebe (epha23)",
-          package: "Silver",
-          sponsor: "Shewangzaw Belay (Shewa)",
-          joined: "Oct 12th 2022 - 9:18PM",
-          level: 2,
-        },
-        {
-          id: 5,
-          name: "Netsanet Guade (santa)",
-          package: "Silver",
-          sponsor: "Masersha Dessie (Agumas)",
-          joined: "Sep 18th 2022 - 11:03AM",
-          level: 2,
-        },
-      ],
+
+      users: [], // Flatten tree goes here
     };
   },
+
+  created() {
+    this.loadTree();
+  },
+
   computed: {
     filteredList() {
       return this.users.filter((u) => {
         const matchesName =
           !this.filters.username ||
-          u.name.toLowerCase().includes(this.filters.username.toLowerCase());
+          u.email?.toLowerCase().includes(this.filters.username.toLowerCase());
+
         const matchesFrom =
           !this.filters.fromLevel || u.level >= this.filters.fromLevel;
+
         const matchesTo =
           !this.filters.toLevel || u.level <= this.filters.toLevel;
+
         return matchesName && matchesFrom && matchesTo;
       });
     },
   },
+
   methods: {
-    search() {
-      // For now, computed handles filtering automatically
+    async loadTree() {
+      try {
+        const userId = this.$route.query.userId || 2;
+
+        const res = await this.$apiGetById(`/get_user_tree`, userId);
+        // Recursively flatten the tree
+        this.users = this.flattenTree(res.children);
+      } catch (err) {
+        console.error("Failed to load user tree:", err);
+      }
     },
+
+    downList(userId) {
+      this.$router.push({
+        path: "/dashboard/downlist",
+        query: { userId: userId },
+      });
+    },
+    goSpecificTree(userId) {
+      this.$router.push({
+        path: "/dashboard/genealogy-tree",
+        query: { userId: userId },
+      });
+    },
+
+    // --- 🔥 FLATTEN NESTED CHILDREN RECURSIVELY ---
+    flattenTree(children) {
+      let flat = [];
+
+      for (let c of children) {
+        flat.push({
+          id: c.id,
+          email: c.email,
+          phone: c.phone_number,
+          date_joined: c.date_joined,
+          level: c.level,
+          wallet_balance: c.wallet_balance,
+        });
+
+        // If this child has more children, flatten them too
+        if (c.children && c.children.length > 0) {
+          flat = flat.concat(this.flattenTree(c.children));
+        }
+      }
+
+      return flat;
+    },
+
+    search() {},
+
     reset() {
       this.filters = { username: "", fromLevel: "", toLevel: "" };
+    },
+
+    formatDate(date) {
+      return new Date(date).toLocaleString();
     },
   },
 };
 </script>
+
+<style scoped></style>

@@ -130,10 +130,15 @@ export default {
     filteredReferrals() {
       if (!this.filters.username) return this.referrals;
       const query = this.filters.username.toLowerCase();
-      return this.referrals.filter((r) =>
-        r.name.toLowerCase().includes(query)
-      );
+      return this.referrals.filter((r) => r.name.toLowerCase().includes(query));
     },
+  },
+  async mounted() {
+    const params = {
+      email: "laxoha5974@fanwn.comrfrc",
+    };
+    const res = await this.$apiGet(`/get_users`, params);
+    console.log("res user by email", res);
   },
   methods: {
     search() {
