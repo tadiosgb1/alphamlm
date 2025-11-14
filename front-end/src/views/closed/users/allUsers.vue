@@ -47,6 +47,7 @@
             <th class="px-3 py-2 text-left">Full Name</th>
             <th class="px-3 py-2 text-left">Phone</th>
             <th class="px-3 py-2 text-left">Wallet</th>
+            <th class="px-3 py-2 text-left">Level</th>
             <th class="px-3 py-2 text-left">Active</th>
             <th class="px-3 py-2 text-left">Joined</th>
             <th class="px-3 py-2 text-left">Actions</th>
@@ -67,6 +68,8 @@
             </td>
             <td class="px-3 py-2">{{ user.phone_number || "-" }}</td>
             <td class="px-3 py-2">{{ user.wallet_balance }}</td>
+            <td class="px-3 py-2">{{ user.level}}</td>
+
             <td class="px-3 py-2">
               <span :class="user.is_active ? 'text-green-600' : 'text-red-500'">
                 {{ user.is_active ? "Yes" : "No" }}

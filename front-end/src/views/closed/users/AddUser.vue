@@ -54,6 +54,14 @@
             class="border rounded w-full px-2 py-1 text-xs"
           />
         </div>
+          <div class="mb-3">
+          <label class="block mb-1 text-gray-600">Password</label>
+          <input
+            v-model="form.password"
+            type="text"
+            class="border rounded w-full px-2 py-1 text-xs"
+          />
+        </div>
         <div class="flex justify-end gap-2">
           <button
             type="button"
@@ -85,6 +93,8 @@ export default {
         last_name: "",
         phone_number: "",
         address: "",
+        level:4,
+        password:""
       },
     };
   },

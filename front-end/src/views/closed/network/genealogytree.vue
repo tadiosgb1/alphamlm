@@ -1,126 +1,113 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col items-center py-10">
-    <!-- Search bar -->
-    <div class="flex space-x-2 mb-10">
-      <input
-        v-model="search"
-        type="text"
-        placeholder="Username"
-        class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <button
-        @click="searchUser"
-        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-      >
-        Search
-      </button>
+  <div class="page">
+
+    <!-- Search -->
+    <div class="search-bar">
+      <input v-model="search" placeholder="Search Email or ID" />
+      <button @click="searchUser">Search</button>
     </div>
 
     <!-- Tree -->
-    <div class="tree-container overflow-x-auto w-full flex justify-center">
+    <div class="tree-wrapper" v-if="!loading">
       <ul class="tree">
-        <TreeNode :node="treeData" />
+        <TreeNode :node="tree" @add="onAddHere" />
       </ul>
     </div>
+
+    <div v-if="loading" class="loading">Loading tree…</div>
+
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script>
 import TreeNode from "./TreeNode.vue";
 
-const search = ref("");
+export default {
+  components: { TreeNode },
+  data() {
+    return {
+      tree: null,
+      loading: true,
+      search: "",
+      _idCounter: 0
+    };
+  },
 
-const treeData = ref({
-  name: "Enatx",
-  children: [
-    {
-      name: "Agumas",
-      children: [
-        {
-          name: "Etcarejr",
-          children: [{ name: "Add Here" }, { name: "Add Here" }],
-        },
-        {
-          name: "santa",
-          children: [{ name: "Add Here" }, { name: "Add Here" }],
-        },
-      ],
-    },
-    {
-      name: "sami123",
-      children: [
-        { name: "Add Here" },
-        {
-          name: "epha23",
-          children: [{ name: "Add Here" }, { name: "Add Here" }],
-        },
-      ],
-    },
-  ],
-});
+  methods: {
+    async fetchTree() {
+      const userId = this.search || localStorage.getItem("userId") ;
+      const res = await this.$apiGetById("/get_user_tree", userId);
 
-const searchUser = () => {
-  alert(`Searching for user: ${search.value}`);
+      const root = res.data ?? res;
+      this.tree = this.normalize(root);
+
+      this.loading = false;
+    },
+
+    // ensures each node has exactly 3 children (fill placeholders)
+    normalize(node) {
+      const copy = {
+        ...node,
+        children: Array.isArray(node.children) ? node.children.map(c => this.normalize(c)) : [],
+        placeholder: false,
+        _renderId: "n" + (this._idCounter++)
+      };
+
+      while (copy.children.length < 3) {
+        copy.children.push({
+          id: null,
+          email: null,
+          placeholder: true,
+          children: [],
+          _renderId: "p" + (this._idCounter++)
+        });
+      }
+
+      return copy;
+    },
+
+    searchUser() {
+      this.fetchTree()
+    },
+
+    onAddHere(node) {
+      alert("Add new user under this node");
+    }
+  },
+
+  mounted() {
+    this.fetchTree();
+  }
 };
 </script>
 
 <style scoped>
-.tree {
-  position: relative;
-  padding-top: 20px;
-  text-align: center;
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
 
-.tree ul {
-  position: relative;
-  padding-top: 20px;
+.tree-wrapper {
+  width: 100%;
+  overflow-x: auto;    /* HORIZONTAL SCROLL FOR MOBILE */
+  padding: 30px;
+}
+
+.tree {
   display: flex;
   justify-content: center;
 }
 
-.tree li {
-  list-style-type: none;
-  position: relative;
-  margin: 0 20px;
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-/* Connectors */
-.tree li::before,
-.tree li::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  border-top: 2px solid #ccc;
-  width: 50%;
-  height: 20px;
-}
-
-.tree li::before {
-  right: 50%;
-  border-right: 2px solid #ccc;
-}
-
-.tree li::after {
-  left: 50%;
-  border-left: 2px solid #ccc;
-}
-
-.tree li:only-child::before,
-.tree li:only-child::after {
-  display: none;
-}
-
-.tree li:first-child::before,
-.tree li:last-child::after {
-  border: 0 none;
-}
-
-.tree li:last-child::before {
-  border-right: 2px solid #ccc;
-}
-
-.tree li:first-child::after {
-  border-left: 2px solid #ccc;
+.loading {
+  font-size: 20px;
+  color: #666;
 }
 </style>

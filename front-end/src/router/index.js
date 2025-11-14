@@ -48,8 +48,13 @@ import PromotorBuyer from '../views/closed/promotorBuyer/view.vue';
 import Downlist  from '../views/closed/downlist/view.vue';
 import Referallist  from '../views/closed/referalList/view.vue';
 import withDrawRequest  from '../views/closed/payout/payoutRequest.vue';
-
 import WithdrawStatement  from '../views/closed/payout/payoutStatements.vue';
+import personalPv  from '../views/closed/pvHistory/personalPv.vue';
+import groupPv  from '../views/closed/pvHistory/groupPv.vue';
+import commissionReport  from '../views/closed/reports/commissionReport.vue';
+import rankHistoryReport  from '../views/closed/reports/rankHistoryReport.vue';
+import carryHistory  from '../views/closed/reports/carryHistory.vue';
+import cycleHistory  from '../views/closed/reports/cycleHistory.vue';
 
 
 
@@ -113,6 +118,14 @@ const routes = [
 
      { path: "withdraw-requests", name: "withdraw-requests", component: withDrawRequest},
       { path: "withdraw-statements", name: "withdraw-statements", component: WithdrawStatement},
+     { path: "personal-pv", name: "personal-pv", component: personalPv},
+     { path: "group-pv", name: "group-pv", component: groupPv},
+
+     { path: "commission-report", name: "commission-report", component: commissionReport},
+     { path: "rank-history-report", name: "rank-history-report", component: rankHistoryReport},
+     { path: "carry-history", name: "carry-history", component: carryHistory},
+     { path: "cycle-history", name: "cycle-history", component: cycleHistory},
+
 
     ],
   },

@@ -114,12 +114,14 @@ export default {
         const payload = { ...this.form };
         const response = await this.$apiPost("/token", payload);
 
+        console.log("response",response);
+
         localStorage.setItem("access", response.access);
         localStorage.setItem("refresh", response.refresh);
-        localStorage.setItem("userId", response.id);
+        localStorage.setItem("userId", response.user);
         localStorage.setItem("email", response.email);
 
-        this.$router.push({ path: "/dashboard/first-dash" });
+       this.$router.push({ path: "/dashboard/first-dash" });
       } catch (err) {
         this.error = err.response?.data?.message || "Login failed. Check your credentials.";
       } finally {

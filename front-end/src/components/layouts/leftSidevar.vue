@@ -23,7 +23,8 @@
         <div class="flex-1">
           <ul class="px-2 space-y-0">
             <li v-for="item in filteredMenuItems" :key="item.name">
-              <!-- Regular menu item -->
+              
+              <!-- Regular menu -->
               <div v-if="!item.children">
                 <router-link
                   :to="{ name: item.route }"
@@ -35,44 +36,33 @@
                 >
                   <i
                     :class="[item.icon, 'w-4 text-sm mr-2']"
-                    :style="{
-                      color:
-                        $route.name === item.route ? '#f97316' : item.color,
-                    }"
+                    :style="{ color: $route.name === item.route ? '#f97316' : item.color }"
                   ></i>
                   <span>{{ item.name }}</span>
                 </router-link>
               </div>
 
-              <!-- Parent item with submenu -->
+              <!-- Parent with submenu -->
               <div v-else>
                 <button
                   @click="toggleSubmenu(item.name)"
                   class="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-orange-100 text-sm font-medium transition-all duration-200"
                   :class="{
-                    'bg-orange-50 text-orange-600 font-semibold': isSubmenuOpen(
-                      item.name
-                    ),
+                    'bg-orange-50 text-orange-600 font-semibold':
+                      isSubmenuOpen(item.name),
                   }"
                 >
                   <div class="flex items-center">
-                    <i
-                      :class="[item.icon, 'w-4 text-sm mr-2']"
-                      :style="{ color: item.color }"
-                    ></i>
+                    <i :class="[item.icon, 'w-4 text-sm mr-2']" :style="{ color: item.color }"></i>
                     <span>{{ item.name }}</span>
                   </div>
                   <i
                     class="fas text-xs ml-2"
-                    :class="[
-                      isSubmenuOpen(item.name)
-                        ? 'fa-chevron-up'
-                        : 'fa-chevron-down',
-                    ]"
+                    :class="[isSubmenuOpen(item.name) ? 'fa-chevron-up' : 'fa-chevron-down']"
                   ></i>
                 </button>
 
-                <!-- Submenu -->
+                <!-- Submenu items -->
                 <transition name="fade">
                   <ul
                     v-if="isSubmenuOpen(item.name)"
@@ -86,17 +76,11 @@
                       <router-link
                         :to="{ name: sub.route }"
                         class="flex items-center px-2 py-1 rounded-md hover:bg-orange-50 text-gray-700 transition"
-                        :class="{
-                          'text-orange-600 font-semibold':
-                            $route.name === sub.route,
-                        }"
+                        :class="{ 'text-orange-600 font-semibold': $route.name === sub.route }"
                       >
                         <i
                           :class="[sub.icon, 'w-4 text-sm mr-2']"
-                          :style="{
-                            color:
-                              $route.name === sub.route ? '#f97316' : sub.color,
-                          }"
+                          :style="{ color: $route.name === sub.route ? '#f97316' : sub.color }"
                         ></i>
                         {{ sub.name }}
                       </router-link>
@@ -104,6 +88,7 @@
                   </ul>
                 </transition>
               </div>
+
             </li>
           </ul>
         </div>
@@ -118,7 +103,10 @@ export default {
     return {
       showTitle: false,
       is_superuser: false,
-      openSubmenus: [], // Track open submenus
+      openSubmenus: [],
+
+      /* ============= CLEAN & RESTRUCTURED MENU ============= */
+
       menuItems: [
         {
           name: "Dashboard",
@@ -126,104 +114,138 @@ export default {
           icon: "fas fa-gauge",
           color: "#f97316",
         },
+
         {
-          name: "Groups",
-          route: "groups",
-          icon: "fas fa-layer-group",
-          color: "#6366f1",
-        },
-        {
-          name: "Permissions",
-          route: "permissions_view",
-          icon: "fas fa-shield-halved",
-          color: "#10b981",
-        },
-        {
-          name: "Users",
-          route: "user_view",
-          icon: "fas fa-user",
-          color: "#60a5fa",
-        },
-        {
-          name: "Promotor Buyers",
-          route: "promotor_buyers",
-          icon: "fas fa-bell",
+          name: "System Settings",
+          icon: "fas fa-cogs",
           color: "#22c55e",
-        },
-        {
-          name: "Network",
-          icon: "fas fa-network-wired",
-          color: "#f97316",
           children: [
             {
-              name: "Genealogy",
-              route: "genealogy-tree",
-              icon: "fas fa-sitemap",
-              color: "#60a5fa",
+              name: "Configurations",
+              route: "configurations",
+              icon: "fas fa-gear",
+              color: "#22c55e",
             },
             {
-              name: "Downlist",
-              route: "downlist",
-              icon: "fas fa-users",
-              color: "#60a5fa",
+              name: "Settings",
+              route: "settings",
+              icon: "fas fa-sliders-h",
+              color: "#22c55e",
             },
             {
-              name: "Referral List",
-              route: "referral-list",
-              icon: "fas fa-link",
-              color: "#60a5fa",
+              name: "Commissions",
+              route: "commissions",
+              icon: "fas fa-money-bill",
+              color: "#22c55e",
             },
           ],
         },
-  
-        {
-          name: "Downlist",
-          route: "downlists",
-          icon: "fas fa-gear",
-          color: "#22c55e",
-        },
+
+        /* USER MANAGEMENT SECTION */
+
 
         {
-          name: "Referallist",
-          route: "referallists",
-          icon: "fas fa-gear",
+          name: "User Management",
+          icon: "fas fa-users-cog",
           color: "#22c55e",
-        },
-
-
-
+          children: [
             {
-          name: "Withdraw Requests",
-          route: "withdraw-requests",
-          icon: "fas fa-gear",
-          color: "#22c55e",
-        },
+              name: "Group Management",
+              route: "groups",
+              icon: "fas fa-layer-group",
+              color: "#60a5fa",
+            },
             {
-          name: "Withdraw Statements",
-          route: "withdraw-statements",
-          icon: "fas fa-gear",
-          color: "#22c55e",
+              name: "Permissions",
+              route: "permissions_view",
+              icon: "fas fa-shield-halved",
+              color: "#10b981",
+            },
+            {
+              name: "Users",
+              route: "user_view",
+              icon: "fas fa-user",
+              color: "#60a5fa",
+            },
+            
+          ],
         },
 
+        {
+  name: "Network",
+  icon: "fas fa-network-wired",
+  color: "#22c55e",
+  children: [
+    {
+      name: "Genealogy",
+      route: "genealogy-tree",
+      icon: "fas fa-sitemap",
+      color: "#60a5fa",
+    },
+    {
+      name: "Downlist",
+      route: "downlists",   // FIXED
+      icon: "fas fa-users",
+      color: "#10b981",
+    },
+    {
+      name: "Referral List",
+      route: "referallists",  // FIXED
+      icon: "fas fa-link",
+      color: "#60a5fa",
+    },
+  ],
+},
 
+
+      
+
+        /* PV HISTORY SECTION */
         {
-          name: "Configurations",
-          route: "configurations",
-          icon: "fas fa-gear",
+          name: "PV History",
+          icon: "fas fa-chart-line",
           color: "#22c55e",
+          children: [
+            {
+              name: "Personal PV",
+              route: "personal-pv",
+              icon: "fas fa-user-check",
+              color: "#22c55e",
+            },
+            {
+              name: "Group PV",
+              route: "group-pv",
+              icon: "fas fa-users-cog",
+              color: "#22c55e",
+            },
+          ],
         },
+
+        /* PAYOUT SECTION */
         {
-          name: "Settings",
-          route: "settings",
-          icon: "fas fa-cog",
+          name: "Payout",
+          icon: "fas fa-wallet",
           color: "#22c55e",
+          children: [
+            {
+              name: "Withdraw Requests",
+              route: "withdraw-requests",
+              icon: "fas fa-file-invoice-dollar",
+              color: "#22c55e",
+            },
+            {
+              name: "Withdraw Statements",
+              route: "withdraw-statements",
+              icon: "fas fa-list",
+              color: "#22c55e",
+            },
+          ],
         },
-        {
-          name: "Commissions",
-          route: "commissions",
-          icon: "fas fa-money-bill",
-          color: "#22c55e",
-        },
+
+        /* SYSTEM SETTINGS */
+        
+
+        /* OTHERS (UNCHANGED) */
         {
           name: "Categories",
           route: "categories",
@@ -266,6 +288,38 @@ export default {
           icon: "fas fa-wallet",
           color: "#22c55e",
         },
+          {
+          name: "Reports",
+          icon: "fas fa-wallet",
+          color: "#22c55e",
+          children: [
+            {
+              name: "Rank History Report",
+              route: "rank-history-report",
+              icon: "fas fa-file-invoice-dollar",
+              color: "#22c55e",
+            },
+             {
+              name: "Commission Report",
+              route: "commission-report",
+              icon: "fas fa-file-invoice-dollar",
+              color: "#22c55e",
+            },
+             {
+              name: "Carry History",
+              route: "carry-history",
+              icon: "fas fa-file-invoice-dollar",
+              color: "#22c55e",
+            },
+             {
+              name: "Cycle History",
+              route: "cycle-history",
+              icon: "fas fa-file-invoice-dollar",
+              color: "#22c55e",
+            },
+            
+          ],
+        },
         {
           name: "Notifications",
           route: "notifications",
@@ -275,16 +329,13 @@ export default {
       ],
     };
   },
+
   computed: {
     filteredMenuItems() {
-      return this.menuItems.filter((item) => {
-        if (item.is_superuser && !this.is_superuser) return false;
-        if (item.permission && !this.$hasPermission(item.permission))
-          return false;
-        return true;
-      });
+      return this.menuItems;
     },
   },
+
   methods: {
     toggleSubmenu(name) {
       if (this.openSubmenus.includes(name)) {
@@ -297,10 +348,10 @@ export default {
       return this.openSubmenus.includes(name);
     },
   },
+
   mounted() {
     this.is_superuser = localStorage.getItem("is_superuser") === "true";
-    this.screenWidth = window.innerWidth;
-    if (this.screenWidth < 1024) {
+    if (window.innerWidth < 1024) {
       this.showTitle = true;
     }
   },
