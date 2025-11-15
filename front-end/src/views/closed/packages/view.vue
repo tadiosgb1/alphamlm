@@ -1,32 +1,37 @@
 <template>
-  <div class="p-4 text-sm text-gray-800">
+  <div class="p-4 bg-gray-50 min-h-screen text-sm text-gray-800">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-4">
-      <h1 class="text-lg font-semibold">Packages Management</h1>
+    <div class="flex items-center justify-between mb-4 border-b pb-3 border-gray-200">
+      <h1 class="text-xl font-bold text-gray-800">Packages Management</h1>
     </div>
 
-    <!-- Tabs -->
-    <div class="border-b border-gray-200 mb-4">
-      <nav class="flex flex-wrap gap-3 text-sm font-medium">
+    <!-- Tabs (Bottom Line Style) -->
+    <div class="mb-6">
+      <nav class="flex flex-wrap gap-1 border-b border-gray-200">
         <button
           v-for="tab in tabs"
           :key="tab.key"
           @click="activeTab = tab.key"
           :class="[
-            'px-4 py-2 rounded-t-md transition-all duration-200',
+            'px-6 py-3 text-sm font-medium transition-all duration-300 relative focus:outline-none',
             activeTab === tab.key
-              ? 'bg-blue-600 text-white shadow'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'text-green-600'
+              : 'text-gray-600 hover:text-green-700 hover:bg-gray-100',
           ]"
         >
           {{ tab.label }}
+          <!-- Active Tab Indicator Line -->
+          <span
+            v-if="activeTab === tab.key"
+            class="absolute bottom-0 left-0 w-full h-0.5 bg-green-500 transform scale-x-100"
+          ></span>
         </button>
       </nav>
     </div>
 
     <!-- Tab Content -->
     <transition name="fade-slide" mode="out-in">
-      <div key="activeTab" class="bg-white border rounded-lg shadow-sm p-4">
+      <div key="activeTab" class="bg-white border border-gray-200 rounded-xl shadow-lg p-4">
         <component :is="activeComponent" />
       </div>
     </transition>
@@ -39,46 +44,35 @@ import ProductPackages from "../ProductPackages/view.vue";
 import TrainingPackages from "../TrainingPackages/view.vue";
 
 export default {
-  name: "PackagesPage",
-  components: {
-    HighLevelPackages,
-    ProductPackages,
-    TrainingPackages,
-  },
-  data() {
-    return {
-      activeTab: "high-level",
-      tabs: [
-        { key: "high-level", label: "High Level Packages" },
-        { key: "product", label: "Product Packages" },
-        { key: "training", label: "Training Packages" },
-      ],
-    };
-  },
-  computed: {
-    activeComponent() {
-      switch (this.activeTab) {
-        case "product":
-          return "ProductPackages";
-        case "training":
-          return "TrainingPackages";
-        default:
-          return "HighLevelPackages";
-      }
-    },
-  },
+  name: "PackagesPage",
+  components: {
+    HighLevelPackages,
+    ProductPackages,
+    TrainingPackages,
+  },
+  data() {
+    return {
+      activeTab: "high-level",
+      tabs: [
+        { key: "high-level", label: "High Level Packages" },
+        { key: "product", label: "Product Packages" },
+        { key: "training", label: "Training Packages" },
+      ],
+    };
+  },
+  computed: {
+    activeComponent() {
+      switch (this.activeTab) {
+        case "product":
+          return "ProductPackages";
+        case "training":
+          return "TrainingPackages";
+        default:
+          return "HighLevelPackages";
+      }
+    },
+  },
 };
 </script>
 
-<style scoped>
-/* Fade + slide animation for smooth tab transition */
-.fade-slide-enter-active,
-.fade-slide-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.fade-slide-enter-from,
-.fade-slide-leave-to {
-  opacity: 0;
-  transform: translateY(10px);
-}
-</style>
+

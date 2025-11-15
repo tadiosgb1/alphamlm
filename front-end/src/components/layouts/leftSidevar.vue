@@ -242,6 +242,34 @@ export default {
           ],
         },
 
+           {
+          name: "Finance",
+          icon: "fas fa-wallet",
+          color: "#22c55e",
+          children: [
+            {
+              name: "Bussiness Wallet",
+              route: "business-wallet",
+              icon: "fas fa-file-invoice-dollar",
+              color: "#22c55e",
+            },
+
+            {
+              name: "Commission Wallet",
+              route: "commission-wallet",
+              icon: "fas fa-file-invoice-dollar",
+              color: "#22c55e",
+            },
+            
+            {
+              name: "Transaction History",
+              route: "transaction-history",
+              icon: "fas fa-file-invoice-dollar",
+              color: "#22c55e",
+            },
+          ],
+        },
+
         /* SYSTEM SETTINGS */
         
 

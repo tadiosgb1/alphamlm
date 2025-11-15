@@ -1,32 +1,38 @@
 <template>
-  <div class="p-4 text-sm text-gray-800">
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-4">
-      <h1 class="text-lg font-semibold">Configuration Settings</h1>
-    </div>
+  <div class=" bg-gray-50 min-h-screen text-base text-gray-800">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="mb-6 flex items-center justify-between ">
+        <h1 class="text-xl font-bold text-gray-800 mt-5">Configuration Settings</h1>
+      </div>
 
-    <!-- Tabs -->
-    <div class="border-b border-gray-200 mb-4">
-      <nav class="flex flex-wrap gap-3 text-sm font-medium">
-        <button
-          v-for="tab in tabs"
-          :key="tab.key"
-          @click="activeTab = tab.key"
-          :class="[
-            'px-4 py-2 rounded-t-md transition-all duration-200',
-            activeTab === tab.key
-              ? 'bg-blue-600 text-white shadow'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          ]"
-        >
-          {{ tab.label }}
-        </button>
-      </nav>
-    </div>
+      <div class="mb-6">
+        <nav class="flex flex-wrap gap-1 border-b border-gray-200">
+          <button
+            v-for="tab in tabs"
+            :key="tab.key"
+            @click="activeTab = tab.key"
+            :class="[
+              'px-6 py-3 text-sm font-medium transition-all duration-300 relative',
+              activeTab === tab.key
+                ? 'text-green-600'
+                : 'text-gray-600 hover:text-green-700 hover:bg-gray-100',
+            ]"
+          >
+            {{ tab.label }}
+            <span
+              v-if="activeTab === tab.key"
+              class="absolute bottom-0 left-0 w-full h-0.5 bg-green-500 transform scale-x-100"
+            ></span>
+          </button>
+        </nav>
+      </div>
 
-    <!-- Tab Content -->
-    <div class="bg-white border rounded-lg shadow-sm p-4">
-      <component :is="activeComponent" />
+      <div class="bg-white rounded-xl shadow-lg p-3 ">
+        <transition name="component" mode="out-in">
+            <component :is="activeComponent" :key="activeTab" />
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -37,46 +43,33 @@ import CommissionConfiguration from "../commissionConfiguration/view.vue";
 import UnilevelConfiguration from "../unilevelConfigurations/view.vue";
 
 export default {
-  name: "ConfigurationPage",
-  components: {
-    SystemConfiguration,
-    CommissionConfiguration,
-    UnilevelConfiguration,
-  },
-  data() {
-    return {
-      activeTab: "system",
-      tabs: [
-        { key: "system", label: "System Configuration" },
-        { key: "commission", label: "Commission Configuration" },
-        { key: "unilevel", label: "Unilevel Configuration" },
-      ],
-    };
-  },
-  computed: {
-    activeComponent() {
-      switch (this.activeTab) {
-        case "commission":
-          return "CommissionConfiguration";
-        case "unilevel":
-          return "UnilevelConfiguration";
-        default:
-          return "SystemConfiguration";
-      }
-    },
-  },
+  name: "ConfigurationPage",
+  components: {
+    SystemConfiguration,
+    CommissionConfiguration,
+    UnilevelConfiguration,
+  },
+  data() {
+    return {
+      activeTab: "system",
+      tabs: [
+        { key: "system", label: "System Configuration" },
+        { key: "commission", label: "Commission Configuration" },
+        { key: "unilevel", label: "Unilevel Configuration" },
+      ],
+    };
+  },
+  computed: {
+    activeComponent() {
+      switch (this.activeTab) {
+        case "commission":
+          return "CommissionConfiguration";
+        case "unilevel":
+          return "UnilevelConfiguration";
+        default:
+          return "SystemConfiguration";
+      }
+    },
+  },
 };
 </script>
-
-<style scoped>
-/* Optional subtle animation when switching tabs */
-.component-enter-active,
-.component-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-.component-enter-from,
-.component-leave-to {
-  opacity: 0;
-  transform: translateY(10px);
-}
-</style>

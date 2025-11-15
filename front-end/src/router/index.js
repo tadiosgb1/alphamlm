@@ -55,6 +55,9 @@ import commissionReport  from '../views/closed/reports/commissionReport.vue';
 import rankHistoryReport  from '../views/closed/reports/rankHistoryReport.vue';
 import carryHistory  from '../views/closed/reports/carryHistory.vue';
 import cycleHistory  from '../views/closed/reports/cycleHistory.vue';
+import businessWallet  from '../views/closed/finance/bussnessWallet.vue';
+import commissionWallet  from '../views/closed/finance/commissionWallet.vue';
+import transactionHistory  from '../views/closed/finance/transactionHistory.vue';
 
 
 
@@ -126,6 +129,9 @@ const routes = [
      { path: "carry-history", name: "carry-history", component: carryHistory},
      { path: "cycle-history", name: "cycle-history", component: cycleHistory},
 
+     { path: "business-wallet", name: "business-wallet", component: businessWallet},
+     { path: "commission-wallet", name: "commission-wallet", component: commissionReport},
+     { path: "transaction-history", name: "transaction-history", component: transactionHistory},
 
     ],
   },

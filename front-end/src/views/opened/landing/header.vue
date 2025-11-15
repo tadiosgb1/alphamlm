@@ -40,7 +40,7 @@
       <router-link to="/about" class="block">About</router-link>
       <router-link to="/contact-us" class="block">Contact</router-link>
       <button
-        @click="$emit('show-login')"
+        @click="goToLogin()"
         class="w-full bg-yellow-500 hover:bg-yellow-600 text-green-900 py-2 rounded-lg font-semibold"
       >
         <i class="fas fa-user mr-2"></i> Login
@@ -57,7 +57,7 @@ export default {
     };
   },
   methods:{
-    login(){
+    goToLogin(){
      // alert("jj")
       this.$router.push("/login")
     }

@@ -1,42 +1,49 @@
 <template>
   <div>
     <Toast ref="toast" />
-    <div class="min-h-screen bg-gray-100 p-6">
-      <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <!-- Header -->
-        <div
-          class="bg-white text-black px-6 py-4 text-xl font-bold flex justify-between items-center"
-        >
-          Users Management
+    
+    <div class="min-h-screen bg-gray-50 p-6">
+      <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200">
+        
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h1 class="text-xl font-bold text-gray-800">Users Management</h1>
         </div>
 
-        <!-- Tabs -->
         <div class="border-b border-gray-200">
           <nav
-            class="-mb-px flex overflow-x-auto no-scrollbar px-2 sm:px-6 space-x-4 sm:space-x-6"
+            class="flex overflow-x-auto no-scrollbar px-6 space-x-6"
             aria-label="Tabs"
           >
-            <!-- All Users Tab -->
             <button
               @click="activeTab = 'allUsers'"
-              class="tab-link"
-              :class="{ 'tab-active': activeTab === 'allUsers' }"
+              class="
+                py-3 px-1 font-medium text-sm text-gray-600 transition duration-300 relative 
+                hover:text-green-700 hover:bg-gray-50
+              "
+              :class="{ 
+                'text-green-600': activeTab === 'allUsers',
+                'border-b-2 border-green-500': activeTab === 'allUsers' // Directly applying the border for the underline
+              }"
             >
               All Users
             </button>
 
-            <!-- Promoter/Buyers Tab -->
             <button
               @click="activeTab = 'promoterBuyer'"
-              class="tab-link"
-              :class="{ 'tab-active': activeTab === 'promoterBuyer' }"
+              class="
+                py-3 px-1 font-medium text-sm text-gray-600 transition duration-300 relative 
+                hover:text-green-700 hover:bg-gray-50
+              "
+              :class="{ 
+                'text-green-600': activeTab === 'promoterBuyer',
+                'border-b-2 border-green-500': activeTab === 'promoterBuyer' // Directly applying the border for the underline
+              }"
             >
               Promotors/Buyers
             </button>
           </nav>
         </div>
 
-        <!-- Tab Content -->
         <div class="p-6">
           <component :is="activeTabComponent" />
         </div>
@@ -50,44 +57,26 @@ import allUsers from "./allUsers.vue";
 import promoterBuyer from "../promotorBuyer/view.vue";
 
 export default {
-  components: {
-    allUsers,
-    promoterBuyer,
-  },
-  data() {
-    const is_superuser = localStorage.getItem("is_superuser") === "true";
+  components: {
+    allUsers,
+    promoterBuyer,
+  },
+  data() {
+    const is_superuser = localStorage.getItem("is_superuser") === "true";
 
-    // Set default tab based on role/permissions
-    let defaultTab = is_superuser ? "allUsers" : "promoterBuyer";
+    // Set default tab based on role/permissions
+    let defaultTab = is_superuser ? "allUsers" : "promoterBuyer";
 
-    return {
-      is_superuser,
-      activeTab: defaultTab,
-      showAddUser: false,
-    };
-  },
-  computed: {
-    activeTabComponent() {
-      return this.activeTab;
-    },
-  },
+    return {
+      is_superuser,
+      activeTab: defaultTab,
+      showAddUser: false,
+    };
+  },
+  computed: {
+    activeTabComponent() {
+      return this.activeTab;
+    },
+  },
 };
 </script>
-
-<style scoped>
-.tab-link {
-  @apply whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm text-gray-500 hover:text-primary hover:border-primary transition;
-}
-.tab-active {
-  @apply border-primary text-primary;
-}
-
-/* Hide scrollbar on mobile */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE/Edge */
-  scrollbar-width: none; /* Firefox */
-}
-</style>
