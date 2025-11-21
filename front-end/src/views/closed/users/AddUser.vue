@@ -63,6 +63,25 @@
               class="border border-gray-300 rounded-lg w-full px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm" 
             />
           </div>
+            <div class="sm:col-span-2">
+            <label class="block mb-1 text-sm font-medium text-gray-700">Bank name</label>
+            <input 
+              v-model="form.bank_name" 
+              type="text" 
+              class="border border-gray-300 rounded-lg w-full px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm" 
+            />
+          </div>
+
+       
+
+          <div class="sm:col-span-2">
+            <label class="block mb-1 text-sm font-medium text-gray-700">Account Number</label>
+            <input 
+              v-model="form.account_number" 
+              type="text" 
+              class="border border-gray-300 rounded-lg w-full px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm" 
+            />
+          </div>
 
           <div class="sm:col-span-2">
             <label class="block mb-1 text-sm font-medium text-gray-700">Password</label>
@@ -107,7 +126,10 @@ export default {
         phone_number: "",
         address: "",
         level:4,
-        password:""
+        password:"",
+        account_number:"",
+        bank_name:"",
+
       },
     };
   },

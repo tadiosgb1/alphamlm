@@ -108,6 +108,17 @@ export default {
       /* ============= CLEAN & RESTRUCTURED MENU ============= */
 
       menuItems: [
+
+    {
+      name: "HigherUser",
+      route: "HigherUser-view",
+      icon: "fas fa-folder",
+      color: "#22c55e"
+    },
+
+
+   
+
         {
           name: "Dashboard",
           route: "first-dash",
@@ -228,10 +239,10 @@ export default {
           color: "#22c55e",
           children: [
             {
-              name: "Withdraw Requests",
-              route: "withdraw-requests",
-              icon: "fas fa-file-invoice-dollar",
-              color: "#22c55e",
+              name: "Withdrawal_requests",
+              route: "Withdrawal_requests-view",
+              icon: "fas fa-folder",
+              color: "#22c55e"
             },
             {
               name: "Withdraw Statements",

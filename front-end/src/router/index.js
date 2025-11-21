@@ -80,6 +80,52 @@ const routes = [
     component: dashboard,
     meta: { requiresGuest: true },
     children: [
+      {
+        path: "higheruser",
+        name: "HigherUser-view",
+        component: () => import('../views/closed/Higheruser/HigherUserView.vue'),
+      },
+      {
+        path: "higheruser/add",
+        name: "HigherUser-add",
+        component: () => import('../views/closed/Higheruser/AddHigherUser.vue'),
+      },
+      {
+        path: "higheruser/edit/:id",
+        name: "HigherUser-edit",
+        component: () => import('../views/closed/Higheruser/EditHigherUser.vue'),
+        props: true,
+      },
+      {
+        path: "higheruser/detail/:id",
+        name: "HigherUser-detail",
+        component: () => import('../views/closed/Higheruser/HigherUserDetail.vue'),
+        props: true,
+      },
+
+      {
+        path: "withdrawal_requestss",
+        name: "Withdrawal_requests-view",
+        component: () => import('../views/closed/Withdrawal_requestss/Withdrawal_requestsView.vue'),
+      },
+      {
+        path: "withdrawal_requestss/add",
+        name: "Withdrawal_requests-add",
+        component: () => import('../views/closed/Withdrawal_requestss/AddWithdrawal_requests.vue'),
+      },
+      {
+        path: "withdrawal_requestss/edit/:id",
+        name: "Withdrawal_requests-edit",
+        component: () => import('../views/closed/Withdrawal_requestss/EditWithdrawal_requests.vue'),
+        props: true,
+      },
+      {
+        path: "withdrawal_requestss/detail/:id",
+        name: "Withdrawal_requests-detail",
+        component: () => import('../views/closed/Withdrawal_requestss/Withdrawal_requestsDetail.vue'),
+        props: true,
+      },
+
       { path: "first-dash", name: "first-dash", component: first_dash },
       { path: "genealogy-tree", name: "genealogy-tree", component: GenealogyTree },
 
