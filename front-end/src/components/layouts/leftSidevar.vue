@@ -109,12 +109,6 @@ export default {
 
       menuItems: [
 
-    {
-      name: "HigherUser",
-      route: "HigherUser-view",
-      icon: "fas fa-folder",
-      color: "#22c55e"
-    },
 
 
    
@@ -172,6 +166,12 @@ export default {
               icon: "fas fa-shield-halved",
               color: "#10b981",
             },
+             {
+                name: "High Level Users",
+                route: "HigherUser-view",
+                icon: "fas fa-folder",
+                color: "#22c55e"
+             },
             {
               name: "Users",
               route: "user_view",
@@ -258,6 +258,18 @@ export default {
           icon: "fas fa-wallet",
           color: "#22c55e",
           children: [
+             {
+              name: "Sales",
+              route: "sales",
+              icon: "fas fa-shopping-cart",
+              color: "#22c55e",
+            },
+           {
+              name: "Wallet Transactions",
+              route: "wallet_transactions",
+              icon: "fas fa-wallet",
+              color: "#22c55e",
+            },
             {
               name: "Bussiness Wallet",
               route: "business-wallet",
@@ -315,18 +327,8 @@ export default {
           icon: "fas fa-boxes",
           color: "#22c55e",
         },
-        {
-          name: "Sales",
-          route: "sales",
-          icon: "fas fa-shopping-cart",
-          color: "#22c55e",
-        },
-        {
-          name: "Wallet Transactions",
-          route: "wallet_transactions",
-          icon: "fas fa-wallet",
-          color: "#22c55e",
-        },
+       
+      
           {
           name: "Reports",
           icon: "fas fa-wallet",
@@ -359,6 +361,27 @@ export default {
             
           ],
         },
+
+        
+        {
+          name: "Events",
+          route: "Event-view",
+          icon: "fas fa-folder",
+          color: "#22c55e"
+        },
+
+
+        {
+          name: "News",
+          route: "News-view",
+          icon: "fas fa-folder",
+          color: "#22c55e"
+        },
+
+
+     
+
+
         {
           name: "Notifications",
           route: "notifications",

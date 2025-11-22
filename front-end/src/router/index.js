@@ -81,6 +81,52 @@ const routes = [
     meta: { requiresGuest: true },
     children: [
       {
+        path: "event",
+        name: "Event-view",
+        component: () => import('../views/closed/Event/EventView.vue'),
+      },
+      {
+        path: "event/add",
+        name: "Event-add",
+        component: () => import('../views/closed/Event/AddEvent.vue'),
+      },
+      {
+        path: "event/edit/:id",
+        name: "Event-edit",
+        component: () => import('../views/closed/Event/EditEvent.vue'),
+        props: true,
+      },
+      {
+        path: "event/detail/:id",
+        name: "Event-detail",
+        component: () => import('../views/closed/Event/EventDetail.vue'),
+        props: true,
+      },
+
+      {
+        path: "news",
+        name: "News-view",
+        component: () => import('../views/closed/News/NewsView.vue'),
+      },
+      {
+        path: "news/add",
+        name: "News-add",
+        component: () => import('../views/closed/News/AddNews.vue'),
+      },
+      {
+        path: "news/edit/:id",
+        name: "News-edit",
+        component: () => import('../views/closed/News/EditNews.vue'),
+        props: true,
+      },
+      {
+        path: "news/detail/:id",
+        name: "News-detail",
+        component: () => import('../views/closed/News/NewsDetail.vue'),
+        props: true,
+      },
+
+      {
         path: "higheruser",
         name: "HigherUser-view",
         component: () => import('../views/closed/Higheruser/HigherUserView.vue'),
